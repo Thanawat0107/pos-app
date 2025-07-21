@@ -2,6 +2,7 @@ import { FlatList, StyleSheet, View } from 'react-native'
 import React, {  } from 'react'
 import { SIZES } from '../../helpers/themes';
 import MenuCard from './MenuCard';
+import { styles } from './MenuRow.Style';
 const mockMenus = [
   {
     id: 1,
@@ -43,6 +44,3 @@ const MenuRow = () => {
 
 export default MenuRow
 
-const styles = StyleSheet.create({
-  menuGrid: { marginTop: SIZES.medium, paddingHorizontal: SIZES.small },
-});
