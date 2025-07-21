@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
      justifyContent: "space-between",
   },
   headerTitle: {
-    fontFamily: "medium",
+    fontFamily: "bold",
     fontSize: SIZES.xLarge -2,
   },
 });

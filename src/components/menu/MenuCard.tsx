@@ -41,7 +41,7 @@ const MenuCard = ({ menus }: Props) => {
         </Text>
       </View>
       <TouchableOpacity style={styles.addBtn}>
-        <Ionicons name="add-circle" size={35} color={COLORS.green} />
+        <Ionicons name="add-circle" size={35} color={COLORS.red3} />
       </TouchableOpacity>
     </TouchableOpacity>
   );
@@ -51,15 +51,15 @@ export default MenuCard;
 
 const styles = StyleSheet.create({
   container: {
-    width: wp(42.3),
-    marginEnd: 22,
-    backgroundColor: COLORS.white,
+    width: wp(50),
+    marginEnd: wp(1),
+    backgroundColor: COLORS.light_red,
     borderRadius: SIZES.medium,
   },
 
   imageWepper: {
     borderRadius: SIZES.medium,
-    backgroundColor: "#6c757d",
+    backgroundColor: COLORS.grayBy,
     marginTop: 5,
     marginHorizontal: 5,
     overflow: "hidden",
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   },
   menuPrice: {
     fontSize: SIZES.large,
-    color: "#5B41FF",
+    color: COLORS.red_orange,
     fontFamily: "medium",
   },
   addBtn: {

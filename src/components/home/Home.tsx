@@ -7,13 +7,12 @@ import MenuRow from "../menu/MenuRow";
 
 const Home = () => {
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <View style={styles.container}>
       <Search />
-      <Headings title="Special Offers" />
+      <Headings title="ข้อเสนอพิเศษ" />
       <Carousels />
-      <Headings title="Top Seller" />
-      <MenuRow />
-    </ScrollView>
+      <Headings title="เมนูแนะนำ" />
+    </View>
   );
 };
 

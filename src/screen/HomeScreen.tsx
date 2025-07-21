@@ -2,9 +2,9 @@ import { ScrollView, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Navber from "../components/layouts/Navber";
-import Welcome from "../components/home/Home";
-import CarRow from "../components/menu/MenuRow";
+import Home from "../components/home/Home";
 import { useAuth } from "../hooks/useAuth";
+import MenuRow from "../components/menu/MenuRow";
 
 const HomeScreen = () => {
   useAuth();
@@ -14,9 +14,9 @@ const HomeScreen = () => {
       <StatusBar style="auto" />
       <SafeAreaView style={styles.container}>
         <Navber />
-        <ScrollView>
-          <Welcome />
-          <CarRow />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Home />
+          <MenuRow />
         </ScrollView>
       </SafeAreaView>
     </>

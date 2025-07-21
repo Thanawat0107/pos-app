@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Dimensions, Image, StyleSheet } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
-
-const { width } = Dimensions.get('window');
+import { wp } from '../../helpers/common';
 
 const banners = [
   require('../../../assets/images/carrot love.jpg'),
@@ -13,7 +12,7 @@ const banners = [
 const Carousels = () => (
   <View style={styles.wrapper}>
     <Carousel
-      width={width}
+      width={wp(100)}
       height={180}
       data={banners}
       autoPlay
@@ -35,7 +34,7 @@ export default Carousels;
 
 const styles = StyleSheet.create({
   wrapper: {
-    marginTop: 16,
+    // marginTop: 16,
   },
   image: {
     width: '100%',

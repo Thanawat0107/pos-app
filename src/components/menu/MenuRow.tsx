@@ -35,7 +35,7 @@ const MenuRow = () => {
         horizontal
         renderItem={({ item }) => <MenuCard menus={item} />}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ columnGap: SIZES.small }}
+        contentContainerStyle={{ columnGap: SIZES.xSmall }}
       />
     </View>
   );
@@ -44,5 +44,5 @@ const MenuRow = () => {
 export default MenuRow
 
 const styles = StyleSheet.create({
-  menuGrid: { marginTop: SIZES.large },
+  menuGrid: { marginTop: SIZES.medium, paddingHorizontal: SIZES.small },
 });
