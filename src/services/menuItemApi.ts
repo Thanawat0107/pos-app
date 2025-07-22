@@ -1,91 +1,91 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { baseUrlAPI } from "../helpers/SD";
 import { ApiResponse } from "../@types/Responsts/ApiResponse";
-import { MenuCategory } from "../@types/dto/MenuCategory";
+import { MenuItem } from "../@types/dto/MenuItem";
 import { PaginationMeta } from "../@types/Responsts/PaginationMeta";
 import { CreateMenuCategory } from "../@types/createDto/createMenuCategory";
 import { UpdateMenuCategory } from "../@types/UpdateDto/updateMenuCategory";
 
-export const menuCategoryApi = createApi({
-  reducerPath: "menuCategoryApi",
+export const menuItemApi = createApi({
+  reducerPath: "menuItemApi",
   baseQuery: fetchBaseQuery({
     baseUrl: baseUrlAPI,
   }),
-  tagTypes: ["Category"],
+  tagTypes: ["Menu"],
   endpoints: (builder) => ({
 
-    getCategoryAll: builder.query<
-      { result: MenuCategory[]; meta: PaginationMeta },
+    getMenuAll: builder.query<
+      { result: MenuItem[]; meta: PaginationMeta },
       { pageNumber?: number; pageSize?: number }
     >({
       query: (params) => ({
-        url: "menucategories/getall",
+        url: "menuItems/getall",
         method: "GET",
         params,
       }),
-      transformResponse: (response: ApiResponse<MenuCategory[]>) => ({
+      transformResponse: (response: ApiResponse<MenuItem[]>) => ({
         result: response.result ?? [],
         meta: response.meta as PaginationMeta,
       }),
-      providesTags: ["Category"],
+      providesTags: ["Menu"],
     }),
 
-    getCategoryById: builder.query<MenuCategory, number>({
-      query: (id) => `menucategories/getby/${id}`,
-      transformResponse: (response: ApiResponse<MenuCategory>) => {
+    getMenuById: builder.query<MenuItem, number>({
+      query: (id) => `menuItems/getby/${id}`,
+      transformResponse: (response: ApiResponse<MenuItem>) => {
         if (response.result) return response.result;
         throw new Error(response.message);
       },
-      providesTags: (result, error, id) => [{ type: "Category", id }],
+      providesTags: (result, error, id) => [{ type: "Menu", id }],
     }),
 
-    createCategory: builder.mutation<MenuCategory, CreateMenuCategory>({
+    createMenu: builder.mutation<MenuItem, CreateMenuCategory>({
       query: (body) => ({
-        url: "menucategories/create",
+        url: "menuItems/create",
         method: "POST",
         body,
       }),
-      transformResponse: (response: ApiResponse<MenuCategory>) => {
+      transformResponse: (response: ApiResponse<MenuItem>) => {
         if (response.result) return response.result;
         throw new Error(response.message);
       },
-      invalidatesTags: ["Category"],
+      invalidatesTags: ["Menu"],
     }),
 
-    updateCategory: builder.mutation<MenuCategory, { id: number; data: UpdateMenuCategory }>({
+    updateMenu: builder.mutation<MenuItem, { id: number; data: UpdateMenuCategory }>({
       query: ({ id, data }) => ({
-        url: `menucategories/update/${id}`,
+        url: `menuItems/update/${id}`,
         method: "PUT",
         body: data,
       }),
-      transformResponse: (response: ApiResponse<MenuCategory>) => {
+      transformResponse: (response: ApiResponse<MenuItem>) => {
         if (response.result) return response.result;
         throw new Error(response.message);
       },
-      invalidatesTags: ["Category"],
+      invalidatesTags: ["Menu"],
     }),
 
-    deleteCategory: builder.mutation<void, number>({
+    deleteMenu: builder.mutation<void, number>({
       query: (id) => ({
-        url: `menucategories/delete/${id}`,
+        url: `menuItems/delete/${id}`,
         method: "DELETE",
       }),
       transformResponse: (response: ApiResponse<any>) => {
         if (!response.isSuccess) throw new Error(response.message);
         return;
       },
-      invalidatesTags: ["Category"],
+      invalidatesTags: ["Menu"],
     }),
    
   }),
 });
 
 export const {
-  useGetCategoryAllQuery,
-  useGetCategoryByIdQuery,
-  useCreateCategoryMutation,
-  useUpdateCategoryMutation,
-  useDeleteCategoryMutation
-} = menuCategoryApi;
+  useGetMenuAllQuery,
+  useGetMenuByIdQuery,
+  useCreateMenuMutation,
+  useUpdateMenuMutation,
+  useDeleteMenuMutation
+} = menuItemApi;
 
-export default menuCategoryApi;
+export default menuItemApi;
