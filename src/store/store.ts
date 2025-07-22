@@ -1,22 +1,19 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "./slices/authSlice";
 import authApi from "../services/authApi";
-import carSlice from "./slices/carSlice";
-import carApi from "../services/carApi";
+import menuCategoryApi from "../services/menuCategoryApi";
 
 
 export const store = configureStore({
   reducer: {
     auth: authSlice,
-    car: carSlice,
-
     [authApi.reducerPath]: authApi.reducer,
-    [carApi.reducerPath]: carApi.reducer,
+    [menuCategoryApi.reducerPath]: menuCategoryApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       authApi.middleware,
-      carApi.middleware,
+      menuCategoryApi.middleware,
     ),
 });
 

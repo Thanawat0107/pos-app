@@ -15,7 +15,8 @@ const Headings = ({ title = "New Rivals" }: Props) => {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>{title}</Text>
         <TouchableOpacity onPress={() => {}}>
-            <Ionicons name='grid' size={24} color={COLORS.primary} />
+            {/* <Ionicons name='grid' size={24} color={COLORS.primary} /> */}
+            <Text style={styles.titleRight}>ดูทั้งหมด</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -35,5 +36,10 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontFamily: "bold",
     fontSize: SIZES.xLarge -2,
+  },
+  titleRight: {
+    fontFamily: "regular",
+    fontSize: SIZES.medium,
+    color: COLORS.primary,
   },
 });

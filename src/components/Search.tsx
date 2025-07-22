@@ -8,6 +8,7 @@ import React from "react";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { useAppNavigation } from "../hooks/useAppNavigation";
 import { COLORS, SIZES } from "../helpers/themes";
+import { hp } from "../helpers/common";
 
 const Search = () => {
   const navigation = useAppNavigation();
@@ -25,15 +26,6 @@ const Search = () => {
           onPressIn={() => {}}
         />
       </View>
-      <View>
-        <TouchableOpacity style={styles.searchBtn}>
-          <Ionicons
-            name="camera-outline"
-            size={SIZES.xLarge}
-            color={COLORS.offwhite}
-          />
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
@@ -48,7 +40,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.grayBy,
     borderRadius: SIZES.medium,
     marginVertical: SIZES.medium,
-    height: 50,
+    height: hp(6.5),
     marginHorizontal: SIZES.small,
   },
   searchIcon: {

@@ -5,6 +5,7 @@ import Navber from "../components/layouts/Navber";
 import Home from "../components/home/Home";
 import { useAuth } from "../hooks/useAuth";
 import MenuRow from "../components/menu/MenuRow";
+import CategotyRow from "../components/menuCategories/CategotyRow";
 
 const HomeScreen = () => {
   useAuth();
@@ -16,7 +17,6 @@ const HomeScreen = () => {
         <Navber />
         <ScrollView showsVerticalScrollIndicator={false}>
           <Home />
-          <MenuRow />
         </ScrollView>
       </SafeAreaView>
     </>

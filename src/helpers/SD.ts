@@ -12,5 +12,5 @@ export const isIOS = Platform.OS === "ios";
 // export const isEmulator = !Device.isDevice;
 
 // export const baseUrl = isEmulator ? baseUrlEmulator : baseUrlPhysical;
-export const baseUrl = "https://cd0ca662aba7.ngrok-free.app"
+export const baseUrl = "http://10.0.2.2:5232"
 export const baseUrlAPI = baseUrl + "/api/";
