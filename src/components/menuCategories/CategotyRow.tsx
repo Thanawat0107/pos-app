@@ -12,10 +12,11 @@ const CategotyRow = () => {
     isLoading,
     isError,
   } = useGetCategoryAllQuery({ pageNumber: 1, pageSize: 5 });
-  const categories = menuCategories?.result ?? [];
-
+  
   if (isLoading) return <Loading />;
   if (isError || !menuCategories) return <Error />;
+  
+  const categories = menuCategories?.result ?? [];
 
   return (
     <View style={styles.rowContainer}>

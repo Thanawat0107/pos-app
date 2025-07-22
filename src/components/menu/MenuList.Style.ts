@@ -3,15 +3,12 @@ import { SIZES } from "../../helpers/themes";
 
 export const styles = StyleSheet.create({
   container: {
-    // marginBottom: -themes.THEME.sizes.xSmall,
-    // marginHorizontal: 12,
+    alignItems: "center",
+    paddingTop: SIZES.xxLarge,
+    // paddingLeft: SIZES.small / 2,
+    // paddingHorizontal: SIZES.small / 4 
   },
-  header: {
-    flexDirection: "row",
-     justifyContent: "space-between",
-  },
-  headerTitle: {
-    fontFamily: "medium",
-    fontSize: SIZES.xLarge -2,
+  separator: {
+    height: 16,
   },
 });

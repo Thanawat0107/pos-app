@@ -1,14 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import MenuList from '../components/menu/MenuList'
 
 const MenuScreen = () => {
   return (
-    <View>
-      <Text>MenuScreen</Text>
-    </View>
+    <MenuList />
   )
 }
 
 export default MenuScreen
-
-const styles = StyleSheet.create({})

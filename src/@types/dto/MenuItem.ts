@@ -5,7 +5,7 @@ export interface MenuItem {
     name: string;
     description: string;
     basePrice: number;
-    imageUrl: string;
+    imageUrl?: string;
     preparationNote: string;
     createdAt: string;
     updateAt: string;
