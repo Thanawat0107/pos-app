@@ -15,8 +15,8 @@ const Headings = ({ title = "New Rivals" }: Props) => {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>{title}</Text>
         <TouchableOpacity onPress={() => {}}>
-            {/* <Ionicons name='grid' size={24} color={COLORS.primary} /> */}
-            <Text style={styles.titleRight}>ดูทั้งหมด</Text>
+            <Ionicons name='grid' size={24} color={COLORS.primary} />
+            {/* <Text style={styles.titleRight}>ดูทั้งหมด</Text> */}
         </TouchableOpacity>
       </View>
     </View>
@@ -27,7 +27,7 @@ export default Headings
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: SIZES.small,
+    // marginHorizontal: SIZES.small,
   },
   header: {
     flexDirection: "row",

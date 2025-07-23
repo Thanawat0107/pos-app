@@ -1,15 +1,23 @@
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import React from "react";
 import Carousels from "../layouts/Carousels";
 import Headings from "../layouts/Headings";
-import Search from "../Search";
+import SearchBar from "../SearchBar";
 import MenuRow from "../menu/MenuRow";
 import CategotyRow from "../menuCategories/CategotyRow";
+import { COLORS, SIZES } from "../../helpers/themes";
+import Navber from "../layouts/Navber";
+import { hp } from "../../helpers/common";
 
 const Home = () => {
   return (
     <View style={styles.container}>
-      <Search />
+      <Navber />
+      <Text style={welcomeText(COLORS.red_orange, 0)}>
+        ร้านอาหารขนาดเล็ก
+      </Text>
+      <Text style={welcomeText(COLORS.tertiary, 0)}>ยินดีต้อนรับ</Text>
+      <SearchBar />
       <Headings title="ข้อเสนอพิเศษ" />
       <Carousels />
       <CategotyRow />
@@ -21,8 +29,16 @@ const Home = () => {
 
 export default Home;
 
+const welcomeText = (color: string, top: number = 0) => ({
+  fontFamily: "bold",
+  fontSize: SIZES.xxLarge - 6,
+  marginTop: top,
+  color: color,
+});
+
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    marginHorizontal: SIZES.small,
+    paddingBottom: hp(7),
   },
 });

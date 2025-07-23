@@ -1,11 +1,20 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { SafeAreaView, StyleSheet } from 'react-native'
 import MenuList from '../components/menu/MenuList'
 
 const MenuScreen = () => {
   return (
-    <MenuList />
-  )
+    <SafeAreaView style={styles.container}>
+      <MenuList />
+    </SafeAreaView>
+  );
 }
 
 export default MenuScreen
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+});

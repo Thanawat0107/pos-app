@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
-import { COLORS, SIZES } from "../../helpers/themes";
+import { COLORS } from "../../helpers/themes";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -9,7 +9,7 @@ const Navber = () => {
   return (
     <View style={styles.appBar}>
       <Ionicons name="location-outline" size={30} />
-      <Text style={styles.location}> Food Application </Text>
+      <Text style={styles.location}> Small restaurant </Text>
       <View style={{ alignItems: "flex-end" }}>
         <View style={styles.cartCount}>
           <Text style={styles.cartNumber}> 9 </Text>
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignContent: "center",
     marginBottom: 10,
-    marginHorizontal: SIZES.xSmall,
+    // marginHorizontal: SIZES.xSmall,
   },
   location: {
     fontFamily: "medium",

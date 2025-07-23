@@ -29,7 +29,7 @@ const MenuRow = () => {
         horizontal
         renderItem={({ item }) => <MenuCard menuItems={item} />}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ columnGap: SIZES.xSmall }}
+        contentContainerStyle={{ columnGap: SIZES.small }}
       />
     </View>
   );

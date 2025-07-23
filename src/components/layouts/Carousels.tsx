@@ -12,7 +12,7 @@ const banners = [
 const Carousels = () => (
   <View style={styles.wrapper}>
     <Carousel
-      width={wp(100)}
+      width={wp(90)}
       height={hp(20)}
       data={banners}
       autoPlay

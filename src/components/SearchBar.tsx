@@ -10,7 +10,7 @@ import { useAppNavigation } from "../hooks/useAppNavigation";
 import { COLORS, SIZES } from "../helpers/themes";
 import { hp } from "../helpers/common";
 
-const Search = () => {
+const SearchBar = () => {
   const navigation = useAppNavigation();
 
   return (
@@ -30,7 +30,7 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default SearchBar;
 
 const styles = StyleSheet.create({
   searchContainer: {
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.medium,
     marginVertical: SIZES.medium,
     height: hp(6.5),
-    marginHorizontal: SIZES.small,
+    // marginHorizontal: SIZES.small,
   },
   searchIcon: {
     marginHorizontal: 10,

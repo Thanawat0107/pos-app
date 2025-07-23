@@ -5,8 +5,7 @@ import { isIOS } from '../../helpers/SD';
 
 export const styles = StyleSheet.create({
   container: {
-    width: wp(50),
-    marginEnd: wp(1),
+    width: wp(45),
     backgroundColor: COLORS.light_red,
     borderRadius: SIZES.medium,
   },
