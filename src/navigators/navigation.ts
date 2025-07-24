@@ -1,11 +1,11 @@
 export type RootStackParamList = {
     RootTabs: undefined;
     Home: undefined;
-    MenuDetails: { menuId: string };
+    MenuDetails: { menuId: number };
     ShoppingCart: undefined;
     NewRivals: undefined;
     MenuCategory: undefined;
-    ProductUpsert: { menuId?: string };
+    MenuItemUpsert: { menuId?: string };
     Register: undefined;
     Login: undefined;
 };

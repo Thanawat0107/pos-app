@@ -1,6 +1,6 @@
 import React from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
-import MenuList from '../components/menu/MenuList'
+import MenuList from '../components/menuItems/MenuList'
 
 const MenuScreen = () => {
   return (

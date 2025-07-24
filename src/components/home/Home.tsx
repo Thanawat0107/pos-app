@@ -3,7 +3,7 @@ import React from "react";
 import Carousels from "../layouts/Carousels";
 import Headings from "../layouts/Headings";
 import SearchBar from "../SearchBar";
-import MenuRow from "../menu/MenuRow";
+import MenuRow from "../menuItems/MenuRow";
 import CategotyRow from "../menuCategories/CategotyRow";
 import { COLORS, SIZES } from "../../helpers/themes";
 import Navber from "../layouts/Navber";
@@ -39,6 +39,6 @@ const welcomeText = (color: string, top: number = 0) => ({
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: SIZES.small,
-    paddingBottom: hp(7),
+    paddingBottom: hp(6),
   },
 });

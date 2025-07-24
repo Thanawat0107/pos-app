@@ -15,7 +15,12 @@ const MenuCard = ({ menuItems }: Props) => {
   const navigation = useAppNavigation();
 
   return (
-    <TouchableOpacity onPress={() => {}} style={styles.container}>
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("MenuDetails", { menuId: menuItems.id })
+      }
+      style={styles.container}
+    >
       <View style={styles.imageWepper}>
         <Image
           source={{ uri: baseUrl + menuItems.imageUrl }}
@@ -32,7 +37,7 @@ const MenuCard = ({ menuItems }: Props) => {
         </Text>
 
         <Text style={styles.menuPrice} numberOfLines={1}>
-         ${menuItems.basePrice.toFixed(2)}
+          ${menuItems.basePrice.toFixed(2)}
         </Text>
       </View>
       <TouchableOpacity style={styles.addBtn}>
