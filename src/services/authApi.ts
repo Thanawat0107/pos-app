@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { baseUrlAPI } from "../helpers/SD";
-import { RegisterResponse } from "../@types/Responsts/RegisterResponse";
+import { RegisterResponse } from "../@types/responsts/RegisterResponse";
 import { Register } from "../@types/dto/Register";
-import { ApiResponse } from "../@types/Responsts/ApiResponse";
-import { LoginResponse } from "../@types/Responsts/LoginResponse";
+import { ApiResponse } from "../@types/responsts/ApiResponse";
+import { LoginResponse } from "../@types/responsts/LoginResponse";
 import { Login } from "../@types/dto/Login";
 
 const authApi = createApi({

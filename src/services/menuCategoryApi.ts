@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { baseUrlAPI } from "../helpers/SD";
-import { ApiResponse } from "../@types/Responsts/ApiResponse";
+import { ApiResponse } from "../@types/responsts/ApiResponse";
 import { MenuCategory } from "../@types/dto/MenuCategory";
-import { PaginationMeta } from "../@types/Responsts/PaginationMeta";
-import { CreateMenuCategory } from "../@types/createDto/createMenuCategory";
-import { UpdateMenuCategory } from "../@types/UpdateDto/updateMenuCategory";
+import { PaginationMeta } from "../@types/responsts/PaginationMeta";
+import { CreateMenuCategory } from "../@types/createDto/CreateMenuCategory";
+import { UpdateMenuCategory } from "../@types/updateDto/UpdateMenuCategory";
 
 export const menuCategoryApi = createApi({
   reducerPath: "menuCategoryApi",

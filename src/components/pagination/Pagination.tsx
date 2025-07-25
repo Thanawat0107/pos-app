@@ -35,7 +35,7 @@
 // components/pagination/Pagination.tsx
 import React from "react";
 import { DataTable } from "react-native-paper";
-import { PaginationMeta } from "../../@types/Responsts/PaginationMeta";
+import { PaginationMeta } from "../../@types/responsts/PaginationMeta";
 
 type Props = {
   meta: PaginationMeta;

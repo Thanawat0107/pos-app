@@ -1,5 +1,3 @@
-import { MenuCategory } from "../dto/MenuCategory";
-
 export interface CreateMenuItem {
     name: string;
     description: string;

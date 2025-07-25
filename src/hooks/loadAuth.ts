@@ -1,5 +1,5 @@
 import { SD_Roles } from "../@types/Enum";
-import { RegisterResponse } from "../@types/Responsts/RegisterResponse";
+import { RegisterResponse } from "../@types/responsts/RegisterResponse";
 import { storage } from "../helpers/storageHelper";
 import { useAppDispatch } from "../hooks/useAppHookState";
 import { setCredentials, logout } from "../store/slices/authSlice";

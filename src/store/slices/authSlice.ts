@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RegisterResponse } from "../../@types/Responsts/RegisterResponse";
+import { RegisterResponse } from "../../@types/responsts/RegisterResponse";
 import { SD_Roles } from "../../@types/Enum";
 import { storage } from "../../helpers/storageHelper";
 

@@ -19,7 +19,7 @@ import { loginValidate } from "../../helpers/validationSchema";
 import { jwtDecode } from "jwt-decode";
 import { useAppDispatch } from "../../hooks/useAppHookState";
 import ReusableDialog from "../ReusableDialog";
-import { RegisterResponse } from "../../@types/Responsts/RegisterResponse";
+import { RegisterResponse } from "../../@types/responsts/RegisterResponse";
 import { SD_Roles } from "../../@types/Enum";
 import { setCredentials } from "../../store/slices/authSlice";
 
