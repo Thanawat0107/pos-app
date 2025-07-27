@@ -7,7 +7,7 @@ import { CreateMenuCategory } from "../@types/createDto/CreateMenuCategory";
 import { UpdateMenuCategory } from "../@types/updateDto/UpdateMenuCategory";
 
 export const menuCategoryApi = createApi({
-  reducerPath: "menuCategoryApi",
+  reducerPath: "menuCategory",
   baseQuery: fetchBaseQuery({
     baseUrl: baseUrlAPI,
   }),

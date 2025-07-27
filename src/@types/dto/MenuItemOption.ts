@@ -1,7 +1,7 @@
 import { MenuItem } from "./MenuItem";
 import { MenuOption } from "./MenuOption";
 
-export interface MenuItemMenuOption {
+export interface MenuItemOption {
     id: number;
 
     menuItemId: number;

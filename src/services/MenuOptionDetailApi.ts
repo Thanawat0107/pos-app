@@ -1,80 +1,80 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { baseUrlAPI } from "../helpers/SD";
 import { ApiResponse } from "../@types/responsts/ApiResponse";
-import { MenuItem } from "../@types/dto/MenuItem";
 import { PaginationMeta } from "../@types/responsts/PaginationMeta";
-import { CreateMenuCategory } from "../@types/createDto/CreateMenuCategory";
-import { UpdateMenuCategory } from "../@types/updateDto/UpdateMenuCategory";
+import { MenuOptionDetail } from "../@types/dto/MenuOptionDetail";
+import { CreateMenuOptionDetail } from "../@types/createDto/CreateMenuOptionDetail";
+import { UpdateMenuOptionDetail } from "../@types/updateDto/UpdateMenuOptionDetail";
 
-export const menuItemApi = createApi({
-  reducerPath: "menuItem",
+export const MenuOptionDetailApi = createApi({
+  reducerPath: "MenuOptionDetail",
   baseQuery: fetchBaseQuery({
     baseUrl: baseUrlAPI,
   }),
-  tagTypes: ["Menu"],
+  tagTypes: ["MenuOptionDetail"],
   endpoints: (builder) => ({
 
     getMenuAll: builder.query<
-      { result: MenuItem[]; meta: PaginationMeta },
+      { result: MenuOptionDetail[]; meta: PaginationMeta },
       { pageNumber?: number; pageSize?: number }
     >({
       query: (params) => ({
-        url: "menuItems/getall",
+        url: "menuOptionDetails/getall",
         method: "GET",
         params,
       }),
-      transformResponse: (response: ApiResponse<MenuItem[]>) => ({
+      transformResponse: (response: ApiResponse<MenuOptionDetail[]>) => ({
         result: response.result ?? [],
         meta: response.meta as PaginationMeta,
       }),
-      providesTags: ["Menu"],
+      providesTags: ["MenuOptionDetail"],
     }),
 
-    getMenuById: builder.query<MenuItem, number>({
-      query: (id) => `menuItems/getby/${id}`,
-      transformResponse: (response: ApiResponse<MenuItem>) => {
+    getMenuById: builder.query<MenuOptionDetail, number>({
+      query: (id) => `menuOptionDetails/getby/${id}`,
+      transformResponse: (response: ApiResponse<MenuOptionDetail>) => {
         if (response.result) return response.result;
         throw new Error(response.message);
       },
-      providesTags: (result, error, id) => [{ type: "Menu", id }],
+      providesTags: (result, error, id) => [{ type: "MenuOptionDetail", id }],
     }),
 
-    createMenu: builder.mutation<MenuItem, CreateMenuCategory>({
+    createMenu: builder.mutation<MenuOptionDetail, CreateMenuOptionDetail>({
       query: (body) => ({
-        url: "menuItems/create",
+        url: "menuOptionDetails/create",
         method: "POST",
         body,
       }),
-      transformResponse: (response: ApiResponse<MenuItem>) => {
+      transformResponse: (response: ApiResponse<MenuOptionDetail>) => {
         if (response.result) return response.result;
         throw new Error(response.message);
       },
-      invalidatesTags: ["Menu"],
+      invalidatesTags: ["MenuOptionDetail"],
     }),
 
-    updateMenu: builder.mutation<MenuItem, { id: number; data: UpdateMenuCategory }>({
+    updateMenu: builder.mutation<MenuOptionDetail, { id: number; data: UpdateMenuOptionDetail }>({
       query: ({ id, data }) => ({
-        url: `menuItems/update/${id}`,
+        url: `menuOptionDetails/update/${id}`,
         method: "PUT",
         body: data,
       }),
-      transformResponse: (response: ApiResponse<MenuItem>) => {
+      transformResponse: (response: ApiResponse<MenuOptionDetail>) => {
         if (response.result) return response.result;
         throw new Error(response.message);
       },
-      invalidatesTags: ["Menu"],
+      invalidatesTags: ["MenuOptionDetail"],
     }),
 
     deleteMenu: builder.mutation<void, number>({
       query: (id) => ({
-        url: `menuItems/delete/${id}`,
+        url: `menuOptionDetails/delete/${id}`,
         method: "DELETE",
       }),
       transformResponse: (response: ApiResponse<any>) => {
         if (!response.isSuccess) throw new Error(response.message);
         return;
       },
-      invalidatesTags: ["Menu"],
+      invalidatesTags: ["MenuOptionDetail"],
     }),
    
   }),
@@ -86,6 +86,6 @@ export const {
   useCreateMenuMutation,
   useUpdateMenuMutation,
   useDeleteMenuMutation
-} = menuItemApi;
+} = MenuOptionDetailApi;
 
-export default menuItemApi;
+export default MenuOptionDetailApi;

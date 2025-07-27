@@ -1,4 +1,4 @@
-export interface CreateMenuItemMenuOption {
+export interface CreateMenuItemOption {
     menuItemId: number;
     menuOptionId: number;
 }
