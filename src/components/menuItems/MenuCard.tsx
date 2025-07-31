@@ -33,7 +33,7 @@ const MenuCard = ({ menuItems }: Props) => {
         </Text>
 
         <Text style={styles.categoty} numberOfLines={1}>
-          {menuItems.menuCategory.name}
+          {menuItems.menuCategoryName}
         </Text>
 
         <Text style={styles.menuPrice} numberOfLines={1}>

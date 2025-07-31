@@ -4,7 +4,7 @@ export interface UpdateMenuItem {
   description: string;
   basePrice: number;
   imageUrl: string;
-  preparationNote: string;
+  menuRecipe: string;
   updateAt: string;
   isUsed: boolean;
   imageFile?: File;

@@ -3,7 +3,7 @@ export interface CreateMenuItem {
     description: string;
     basePrice: number;
     imageUrl: string;
-    preparationNote: string;
+    menuRecipe: string;
     createdAt: string;
     imageFile?: File;
 

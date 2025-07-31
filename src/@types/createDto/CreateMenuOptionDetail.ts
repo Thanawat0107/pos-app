@@ -1,6 +1,7 @@
 export interface CreateMenuOptionDetail {
     name: string;
     extraPrice: number;
+    displayOrder: number;
 
-    menuOptionId: number;
+    menuItemOptionId: number;
 }

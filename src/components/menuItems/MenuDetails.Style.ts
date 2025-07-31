@@ -115,8 +115,8 @@ export const styles = StyleSheet.create({
     width: SIZES.width,
   },
   cartBtn: {
-    width: SIZES.width * 0.7,
-    backgroundColor: COLORS.black,
+    width: wp(50),
+    backgroundColor: COLORS.red_orange,
     padding: SIZES.small / 2,
     borderRadius: SIZES.large,
     marginLeft: 12,
@@ -128,12 +128,35 @@ export const styles = StyleSheet.create({
     color: COLORS.lightWhite,
   },
   addCart: {
-    width: 37,
+    width: wp(30),
     height: 37,
     borderRadius: 50,
     margin: SIZES.small,
-    backgroundColor: COLORS.black,
+    backgroundColor: COLORS.red_orange,
     justifyContent: "center",
     alignItems: "center",
+  },
+  optionSection: {
+    marginHorizontal: SIZES.large,
+    marginTop: SIZES.large,
+  },
+
+  optionTitle: {
+    fontFamily: "bold",
+    fontSize: SIZES.medium,
+    marginBottom: 8,
+    color: COLORS.primary,
+  },
+
+  optionDetail: {
+    padding: 10,
+    backgroundColor: COLORS.gray2,
+    borderRadius: SIZES.small,
+    marginBottom: 5,
+  },
+
+  optionDetailText: {
+    fontFamily: "regular",
+    fontSize: SIZES.small,
   },
 });

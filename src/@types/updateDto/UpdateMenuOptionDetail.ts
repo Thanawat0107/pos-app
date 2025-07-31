@@ -2,7 +2,8 @@ export interface UpdateMenuOptionDetail {
     id: number;
     name: string;
     extraPrice: number;
+    displayOrder: number;
     isUsed: boolean;
 
-    menuOptionId: number;
+    menuItemOptionId: number;
 }

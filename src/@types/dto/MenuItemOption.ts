@@ -1,11 +1,16 @@
-import { MenuItem } from "./MenuItem";
-import { MenuOption } from "./MenuOption";
+import { MenuOptionDetail } from "./MenuOptionDetail";
 
 export interface MenuItemOption {
     id: number;
+    name: string;
+    isRequired: boolean;
+    isMultiple: boolean;
+    isUsed: boolean;
+    isDeleted: boolean;
+    displayOrder: number;
 
     menuItemId: number;
-    menuItem: MenuItem;
-    menuOptionId: number;
-    menuOption: MenuOption;
+    MenuItemName: string;
+
+    menuOptionDetails: MenuOptionDetail[];
 }
