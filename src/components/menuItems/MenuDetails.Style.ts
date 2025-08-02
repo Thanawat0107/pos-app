@@ -5,7 +5,7 @@ import { COLORS, SIZES } from "../../helpers/themes";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.lightWhite,
+    backgroundColor: COLORS.while,
   },
   upperRow: {
     marginHorizontal: 20,
@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
   },
   contentContainer: {
     marginTop: -SIZES.large,
-    backgroundColor: COLORS.lightWhite,
+    backgroundColor: COLORS.while,
     width: SIZES.width,
     borderTopLeftRadius: SIZES.medium,
     borderTopRightRadius: SIZES.medium,
@@ -68,16 +68,16 @@ export const styles = StyleSheet.create({
     fontFamily: "medium",
     paddingHorizontal: SIZES.xSmall,
   },
-
   priceWrapper: {
-    backgroundColor: "#5B41FF",
+    backgroundColor: COLORS.light_red,
+    paddingVertical: SIZES.small / 2,
     borderRadius: SIZES.large,
   },
   price: {
     paddingHorizontal: 10,
     fontFamily: "medium",
     fontSize: SIZES.large,
-    color: "yellow",
+    color: COLORS.red_orange,
   },
   descriptionWrapper: {
     marginTop: SIZES.large * 2,
@@ -108,53 +108,71 @@ export const styles = StyleSheet.create({
     borderRadius: SIZES.large,
   },
   cartRow: {
-    paddingBottom: SIZES.small,
+    paddingBottom: SIZES.xLarge,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     width: SIZES.width,
   },
   cartBtn: {
-    width: wp(50),
+    width: wp(90),
     backgroundColor: COLORS.red_orange,
+    marginHorizontal: SIZES.large,
+    borderRadius: 5,
     padding: SIZES.small / 2,
-    borderRadius: SIZES.large,
-    marginLeft: 12,
+  },
+  cartBtnContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: SIZES.medium,
+  },
+  leftBox: {
+    flex: 2,
+    justifyContent: "center",
+    margin: "auto",
+    // alignItems: "center",
+    height: 40,
+  },
+  rightBox: {
+    flex: 1,
+    justifyContent: "center",
+    margin: "auto",
+    // alignItems: "center",
+    height: 40,
+  },
+  divider: {
+    width: 1,
+    height: "60%", // หรือ 25-30 ก็ได้
+    backgroundColor: COLORS.while,
   },
   cartTitle: {
-    marginLeft: SIZES.small,
-    fontFamily: "medium",
-    fontSize: SIZES.medium,
-    color: COLORS.lightWhite,
+    fontFamily: "boold",
+    fontSize: SIZES.large,
+    color: COLORS.while,
+    textAlign: "center",
   },
-  addCart: {
-    width: wp(30),
-    height: 37,
-    borderRadius: 50,
-    margin: SIZES.small,
-    backgroundColor: COLORS.red_orange,
-    justifyContent: "center",
-    alignItems: "center",
+  addCartText: {
+    color: "white",
+    fontFamily: "medium",
+    fontSize: SIZES.large,
+    textAlign: "center",
   },
   optionSection: {
     marginHorizontal: SIZES.large,
     marginTop: SIZES.large,
   },
-
   optionTitle: {
     fontFamily: "bold",
     fontSize: SIZES.medium,
     marginBottom: 8,
     color: COLORS.primary,
   },
-
   optionDetail: {
     padding: 10,
     backgroundColor: COLORS.gray2,
     borderRadius: SIZES.small,
     marginBottom: 5,
   },
-
   optionDetailText: {
     fontFamily: "regular",
     fontSize: SIZES.small,

@@ -226,14 +226,23 @@ const MenuDetails = () => {
         {/* Bottom Cart Row */}
         <View style={styles.cartRow}>
           <TouchableOpacity onPress={handleAddToCart} style={styles.cartBtn}>
-            <Text style={styles.cartTitle}>Add to cart</Text>
-          </TouchableOpacity>
+            <View style={styles.cartBtnContent}>
+              {/* Left: Add to cart */}
+              <View style={styles.leftBox}>
+                <Text style={styles.cartTitle}>เพิ่มลงในตะกร้า</Text>
+              </View>
 
-          <View style={styles.addCart}>
-            <Text style={{ color: "white", fontFamily: "medium" }}>
-              ฿ {getTotalPrice().toFixed(2)}
-            </Text>
-          </View>
+              {/* Divider */}
+              <View style={styles.divider} />
+
+              {/* Right: Price */}
+              <View style={styles.rightBox}>
+                <Text style={styles.addCartText}>
+                  ฿ {getTotalPrice().toFixed(2)}
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
 
