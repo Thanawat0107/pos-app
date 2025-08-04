@@ -8,7 +8,7 @@ export interface MenuItem {
   imageUrl?: string;
   menuRecipe: string;
   createdAt: string;
-  updateAt: string;
+  updatedAt: string;
   isUsed: boolean;
   isDeleted: boolean;
 

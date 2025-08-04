@@ -39,6 +39,7 @@ const welcomeText = (color: string, top: number = 0) => ({
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: SIZES.small,
-    paddingBottom: hp(6),
+    paddingTop: hp(5),
+    paddingBottom: hp(10),
   },
 });

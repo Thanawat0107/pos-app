@@ -4,10 +4,10 @@ import { hp } from "../../helpers/common";
 
 export const styles = StyleSheet.create({
   container: {
-    paddingBottom: hp(7),
+    paddingBottom: hp(8),
   },
   header: {
-    marginTop: 5,
+    marginTop: hp(0.2),
     marginBottom: 10,
   },
   title: {

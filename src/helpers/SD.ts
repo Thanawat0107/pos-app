@@ -12,5 +12,5 @@ export const isIOS = Platform.OS === "ios";
 // export const isEmulator = !Device.isDevice;
 
 // export const baseUrl = isEmulator ? baseUrlEmulator : baseUrlPhysical;
-export const baseUrl = "http://10.0.2.2:5232"
+export const baseUrl = "http://10.120.2.10:5232";
 export const baseUrlAPI = baseUrl + "/api/";
