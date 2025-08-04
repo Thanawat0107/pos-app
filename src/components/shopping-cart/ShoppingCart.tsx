@@ -22,17 +22,10 @@ const ShoppingCart = () => {
         scrollEnabled={false}
         ListHeaderComponent={
           <View style={styles.header}>
-            <Text style={styles.title}>ตะกร้า</Text>
+            <Text style={styles.title}>ShoppingCart</Text>
           </View>
         }
       />
-
-      <View style={styles.promoContainer}>
-        <TextInput placeholder="Promo code" style={styles.promoInput} />
-        <TouchableOpacity style={styles.applyButton}>
-          <Text style={styles.applyText}>Apply</Text>
-        </TouchableOpacity>
-      </View>
 
       <View style={styles.summary}>
         <Text style={styles.summaryLabel}>Order Summary</Text>

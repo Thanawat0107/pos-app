@@ -3,20 +3,25 @@ import authSlice from "./slices/authSlice";
 import authApi from "../services/authApi";
 import menuCategoryApi from "../services/menuCategoryApi";
 import menuItemApi from "../services/menuItemApi";
+import shoppingCartSlice from "./slices/shoppingCartSlice";
+import shoppingCartApi from "../services/shoppingCartApi";
 
 
 export const store = configureStore({
   reducer: {
     auth: authSlice,
+    shoppingCart: shoppingCartSlice,
     [authApi.reducerPath]: authApi.reducer,
     [menuCategoryApi.reducerPath]: menuCategoryApi.reducer,
     [menuItemApi.reducerPath]: menuItemApi.reducer,
+    [shoppingCartApi.reducerPath]: shoppingCartApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       authApi.middleware,
       menuCategoryApi.middleware,
       menuItemApi.middleware,
+      shoppingCartApi.middleware,
     ),
 });
 
