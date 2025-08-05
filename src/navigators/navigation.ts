@@ -8,4 +8,5 @@ export type RootStackParamList = {
     MenuItemUpsert: { menuId?: string };
     Register: undefined;
     Login: undefined;
+    RestaurantTableList: undefined;
 };

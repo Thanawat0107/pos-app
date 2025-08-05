@@ -14,7 +14,6 @@ import { useAppDispatch, useAppSelector } from "../../hooks/useAppHookState";
 import { logout } from "../../store/slices/authSlice";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 
-
 const ProfileItem = () => {
   const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
@@ -31,73 +30,93 @@ const ProfileItem = () => {
   const userName = useAppSelector((state) => state.auth.userName);
   const email = useAppSelector((state) => state.auth.email);
   const menuProfile = [
-  {
-    title: "History",
-    icon: (
-      <MaterialIcons
-        name="history"
-        size={SIZES.xLarge}
-        color={COLORS.red_orange}
-      />
-    ),
-  },
-  {
-    title: "Notifications",
-    icon: (
-      <Ionicons
-        name="notifications-outline"
-        size={SIZES.xLarge}
-        color={COLORS.red_orange}
-      />
-    ),
-  },
-  {
-    title: "My Address",
-    icon: (
-      <Ionicons
-        name="location-outline"
-        size={SIZES.xLarge}
-        color={COLORS.red_orange}
-      />
-    ),
-  },
-  {
-    title: "Favourite",
-    icon: (
-      <FontAwesome
-        name="heart-o"
-        size={SIZES.xLarge}
-        color={COLORS.red_orange}
-      />
-    ),
-  },
-  {
-    title: "Track Order",
-    icon: (
-      <MaterialIcons
-        name="track-changes"
-        size={SIZES.xLarge}
-        color={COLORS.red_orange}
-      />
-    ),
-  },
-  {
-    title: "Credit Cards",
-    icon: (
-      <FontAwesome
-        name="credit-card"
-        size={SIZES.xLarge}
-        color={COLORS.red_orange}
-      />
-    ),
-  },
-  {
-    title: isLoggedIn ? "Sign out" : "Sign in",
-    icon: isLoggedIn
-      ? <MaterialIcons name="logout" size={SIZES.xLarge} color={COLORS.red_orange} />
-      : <MaterialIcons name="login" size={SIZES.xLarge} color={COLORS.red_orange} />,
-  },
-];
+    {
+      title: "รายการโต๊ะ",
+      icon: (
+        <MaterialIcons
+          name="table-restaurant"
+          size={SIZES.xLarge}
+          color={COLORS.red_orange}
+        />
+      ),
+    },
+    {
+      title: "ประวัติการสั่งซื้อ",
+      icon: (
+        <MaterialIcons
+          name="history"
+          size={SIZES.xLarge}
+          color={COLORS.red_orange}
+        />
+      ),
+    },
+    {
+      title: "การแจ้งเตือน",
+      icon: (
+        <Ionicons
+          name="notifications-outline"
+          size={SIZES.xLarge}
+          color={COLORS.red_orange}
+        />
+      ),
+    },
+    {
+      title: "ที่อยู่ของฉัน",
+      icon: (
+        <Ionicons
+          name="location-outline"
+          size={SIZES.xLarge}
+          color={COLORS.red_orange}
+        />
+      ),
+    },
+    {
+      title: "รายการโปรด",
+      icon: (
+        <FontAwesome
+          name="heart-o"
+          size={SIZES.xLarge}
+          color={COLORS.red_orange}
+        />
+      ),
+    },
+    {
+      title: "ติดตามคำสั่งซื้อ",
+      icon: (
+        <MaterialIcons
+          name="track-changes"
+          size={SIZES.xLarge}
+          color={COLORS.red_orange}
+        />
+      ),
+    },
+    {
+      title: "บัตรเครดิต",
+      icon: (
+        <FontAwesome
+          name="credit-card"
+          size={SIZES.xLarge}
+          color={COLORS.red_orange}
+        />
+      ),
+    },
+    {
+      title: isLoggedIn ? "ออกจากระบบ" : "เข้าสู่ระบบ",
+      icon: isLoggedIn ? (
+        <MaterialIcons
+          name="logout"
+          size={SIZES.xLarge}
+          color={COLORS.red_orange}
+        />
+      ) : (
+        <MaterialIcons
+          name="login"
+          size={SIZES.xLarge}
+          color={COLORS.red_orange}
+        />
+      ),
+    },
+  ];
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -127,7 +146,7 @@ const ProfileItem = () => {
           key={index}
           style={styles.menuProfile}
           onPress={() => {
-            if (item.title === "Sign out") {
+            if (item.title === "ออกจากระบบ") {
               setShowConfirmLogout(true);
             } else {
               handleItemPress(item.title);

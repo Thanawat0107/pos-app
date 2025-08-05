@@ -8,8 +8,9 @@ type RouteConfig = {
 };
 
 const routeMap: Record<string, RouteConfig> = {
-  'Sign in': { name: 'Login' },
-  'Sign out': { name: 'Login' },
+  "เข้าสู่ระบบ": { name: "Login" },
+  "ออกจากระบบ": { name: "Login" },
+  "รายการโต๊ะ": { name: "RestaurantTableList" },
 };
 
 export const useTitleNavigation = () => {

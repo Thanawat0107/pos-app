@@ -6,7 +6,7 @@ import { CreateMenuItemOption } from "../@types/createDto/CreateMenuItemOption";
 import { MenuItemOption } from "../@types/dto/MenuItemOption";
 import { UpdateMenuItemOption } from "../@types/updateDto/UpdateMenuItemOption";
 
-export const MenuItemOptionApi = createApi({
+export const menuItemOptionApi = createApi({
   reducerPath: "MenuItemOption",
   baseQuery: fetchBaseQuery({
     baseUrl: baseUrlAPI,
@@ -86,6 +86,6 @@ export const {
   useCreateMenuMutation,
   useUpdateMenuMutation,
   useDeleteMenuMutation
-} = MenuItemOptionApi;
+} = menuItemOptionApi;
 
-export default MenuItemOptionApi;
+export default menuItemOptionApi;
