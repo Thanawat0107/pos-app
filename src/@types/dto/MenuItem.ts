@@ -1,4 +1,4 @@
-import { MenuItemOption } from "./MenuItemOption";
+import { MenuItemOptionGroup } from "./MenuItemOptionGroup";
 
 export interface MenuItem {
   id: number;
@@ -15,5 +15,5 @@ export interface MenuItem {
   menuCategoryId?: number | null;
   menuCategoryName?: string | null;
 
-  menuItemOptions: MenuItemOption[];
+  menuItemOptionGroups: MenuItemOptionGroup[];
 }

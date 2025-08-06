@@ -65,7 +65,8 @@ const MenuDetails = () => {
   const getTotalPrice = () => {
     let total = menu?.basePrice ?? 0;
 
-    for (const option of menu?.menuItemOptions ?? []) {
+    for (const group of menu?.menuItemOptionGroups ?? []) {
+      const option = group.menuItemOption;
       const selectedIds = selectedOptions[option.id] || [];
 
       for (const id of selectedIds) {
@@ -80,7 +81,8 @@ const MenuDetails = () => {
   };
 
   const validateRequiredOptions = () => {
-    for (const option of menu?.menuItemOptions ?? []) {
+    for (const group of menu?.menuItemOptionGroups ?? []) {
+      const option = group.menuItemOption;
       const selected = selectedOptions[option.id];
       if (option.isRequired && (!selected || selected.length === 0)) {
         return `กรุณาเลือก: ${option.name}`;
@@ -164,58 +166,76 @@ const MenuDetails = () => {
         </View>
 
         {/* Options */}
-        {menu.menuItemOptions?.map((option) => (
-          <View key={option.id} style={styles.optionSection}>
-            <Text style={styles.optionTitle}>
-              {option.name} {option.isRequired ? "(ต้องเลือก)" : ""}
-            </Text>
+        {menu.menuItemOptionGroups
+          ?.sort((a, b) => a.displayOrder - b.displayOrder)
+          .map((group) => {
+            const option = group.menuItemOption;
 
-            {option.menuOptionDetails?.map((detail) => {
-              const selectedIds = selectedOptions[option.id] || [];
-              const isSelected = selectedIds.includes(detail.id);
+            return (
+              <View key={option.id} style={styles.optionSection}>
+                <Text style={styles.optionTitle}>
+                  {option.name} {option.isRequired ? "(ต้องเลือก)" : ""}
+                </Text>
 
-              return (
-                <TouchableOpacity
-                  key={detail.id}
-                  style={[
-                    styles.optionDetail,
-                    {
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      paddingHorizontal: 12,
-                      paddingVertical: 10,
-                      marginVertical: 5,
-                      borderRadius: 10,
-                      backgroundColor: isSelected
-                        ? COLORS.red_orange
-                        : COLORS.light_red,
-                    },
-                  ]}
-                  onPress={() =>
-                    handleSelectOption(option.id, detail.id, option.isMultiple)
-                  }
-                >
-                  <Text
-                    style={[
-                      styles.optionDetailText,
-                      { color: isSelected ? COLORS.lightWhite : COLORS.black },
-                    ]}
-                  >
-                    {detail.name}{" "}
-                    {detail.extraPrice > 0 ? `(+${detail.extraPrice}฿)` : ""}
-                  </Text>
+                {option.menuOptionDetails
+                  ?.sort((a, b) => a.DisplayOrder - b.DisplayOrder)
+                  .map((detail) => {
+                    const selectedIds = selectedOptions[option.id] || [];
+                    const isSelected = selectedIds.includes(detail.id);
 
-                  <Ionicons
-                    name={isSelected ? "checkbox" : "square-outline"}
-                    size={22}
-                    color={isSelected ? COLORS.lightWhite : COLORS.gray}
-                  />
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-        ))}
+                    return (
+                      <TouchableOpacity
+                        key={detail.id}
+                        style={[
+                          styles.optionDetail,
+                          {
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            paddingHorizontal: 12,
+                            paddingVertical: 10,
+                            marginVertical: 5,
+                            borderRadius: 10,
+                            backgroundColor: isSelected
+                              ? COLORS.red_orange
+                              : COLORS.light_red,
+                          },
+                        ]}
+                        onPress={() =>
+                          handleSelectOption(
+                            option.id,
+                            detail.id,
+                            option.isMultiple
+                          )
+                        }
+                      >
+                        <Text
+                          style={[
+                            styles.optionDetailText,
+                            {
+                              color: isSelected
+                                ? COLORS.lightWhite
+                                : COLORS.black,
+                            },
+                          ]}
+                        >
+                          {detail.name}{" "}
+                          {detail.extraPrice > 0
+                            ? `(+${detail.extraPrice}฿)`
+                            : ""}
+                        </Text>
+
+                        <Ionicons
+                          name={isSelected ? "checkbox" : "square-outline"}
+                          size={22}
+                          color={isSelected ? COLORS.lightWhite : COLORS.gray}
+                        />
+                      </TouchableOpacity>
+                    );
+                  })}
+              </View>
+            );
+          })}
 
         {/* Description */}
         <View style={styles.descriptionWrapper}>

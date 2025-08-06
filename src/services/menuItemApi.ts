@@ -5,6 +5,8 @@ import { MenuItem } from "../@types/dto/MenuItem";
 import { PaginationMeta } from "../@types/responsts/PaginationMeta";
 import { CreateMenuCategory } from "../@types/createDto/CreateMenuCategory";
 import { UpdateMenuCategory } from "../@types/updateDto/UpdateMenuCategory";
+import { CreateMenuItem } from "../@types/createDto/CreateMenuItem";
+import { UpdateMenuItem } from "../@types/updateDto/UpdateMenuItem";
 
 export const menuItemApi = createApi({
   reducerPath: "menuItem",
@@ -39,7 +41,7 @@ export const menuItemApi = createApi({
       providesTags: (result, error, id) => [{ type: "Menu", id }],
     }),
 
-    createMenu: builder.mutation<MenuItem, CreateMenuCategory>({
+    createMenu: builder.mutation<MenuItem, CreateMenuItem>({
       query: (body) => ({
         url: "menuItems/create",
         method: "POST",
@@ -52,7 +54,7 @@ export const menuItemApi = createApi({
       invalidatesTags: ["Menu"],
     }),
 
-    updateMenu: builder.mutation<MenuItem, { id: number; data: UpdateMenuCategory }>({
+    updateMenu: builder.mutation<MenuItem, { id: number; data: UpdateMenuItem }>({
       query: ({ id, data }) => ({
         url: `menuItems/update/${id}`,
         method: "PUT",

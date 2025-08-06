@@ -7,8 +7,6 @@ import shoppingCartSlice from "./slices/shoppingCartSlice";
 import shoppingCartApi from "../services/shoppingCartApi";
 import restaurantTableApi from "../services/restaurantTableApi";
 import menuItemOptionApi from "../services/menuItemOptionApi";
-import menuOptionDetailApi from "../services/menuOptionDetailApi";
-
 
 export const store = configureStore({
   reducer: {
@@ -18,7 +16,6 @@ export const store = configureStore({
     [menuCategoryApi.reducerPath]: menuCategoryApi.reducer,
     [menuItemApi.reducerPath]: menuItemApi.reducer,
     [menuItemOptionApi.reducerPath]: menuItemOptionApi.reducer,
-    [menuOptionDetailApi.reducerPath]: menuOptionDetailApi.reducer,
     [restaurantTableApi.reducerPath]: restaurantTableApi.reducer,
     [shoppingCartApi.reducerPath]: shoppingCartApi.reducer,
   },
@@ -28,7 +25,6 @@ export const store = configureStore({
       menuCategoryApi.middleware,
       menuItemApi.middleware,
       menuItemOptionApi.middleware,
-      menuOptionDetailApi.middleware,
       restaurantTableApi.middleware,
       shoppingCartApi.middleware,
     ),

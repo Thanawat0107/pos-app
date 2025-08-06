@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, View } from 'react-native'
+import { FlatList, View } from 'react-native'
 import React, {  } from 'react'
 import { SIZES } from '../../helpers/themes';
 import MenuCard from './MenuCard';
