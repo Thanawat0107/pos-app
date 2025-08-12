@@ -2,9 +2,11 @@ import { CartItem } from "./CartItem";
 
 export interface ShoppingCart {
     id: number;
+
+    cartToken: string;
+
     orderType: string;
     userId?: string;
-    tableNumber?: string;
 
     customerName?: string;
     customerNote?: string;

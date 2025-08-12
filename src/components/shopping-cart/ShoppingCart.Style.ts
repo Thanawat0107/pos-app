@@ -61,4 +61,33 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   checkoutText: { color: "white", fontWeight: "bold", fontSize: 16 },
+  cartItemContainer: {
+  flexDirection: 'row',
+  marginVertical: 10,
+  padding: 10,
+  borderWidth: 1,
+  borderColor: '#ddd',
+  borderRadius: 8,
+},
+
+cartItemImage: {
+  width: 80,
+  height: 80,
+  borderRadius: 8,
+  marginRight: 10,
+},
+
+cartItemDetails: {
+  flex: 1,
+},
+
+optionText: {
+  fontSize: 12,
+  color: '#555',
+},
+
+optionsContainer: {
+  marginTop: 4,
+},
+
 });

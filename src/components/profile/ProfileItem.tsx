@@ -31,16 +31,6 @@ const ProfileItem = () => {
   const email = useAppSelector((state) => state.auth.email);
   const menuProfile = [
     {
-      title: "รายการโต๊ะ",
-      icon: (
-        <MaterialIcons
-          name="table-restaurant"
-          size={SIZES.xLarge}
-          color={COLORS.red_orange}
-        />
-      ),
-    },
-    {
       title: "ประวัติการสั่งซื้อ",
       icon: (
         <MaterialIcons

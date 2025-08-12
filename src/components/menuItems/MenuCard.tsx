@@ -22,8 +22,12 @@ const MenuCard = ({ menuItems }: Props) => {
       style={styles.container}
     >
       <View style={styles.imageWepper}>
-        <Image
+        {/* <Image
           source={{ uri: baseUrl + menuItems.imageUrl }}
+          style={styles.menuImage}
+        /> */}
+        <Image
+          source={{ uri: menuItems.imageUrl }}
           style={styles.menuImage}
         />
       </View>

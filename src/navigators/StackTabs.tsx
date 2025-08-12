@@ -4,7 +4,6 @@ import RootTabs from './RootTabs';
 import Login from '../components/login/Login';
 import Register from '../components/register/Register';
 import MenuDetails from '../components/menuItems/MenuDetails';
-import RestaurantTableList from '../components/restaurant-tables/RestaurantTableList';
 const Stack = createNativeStackNavigator();
 
 const StackTabs = () => {
@@ -34,11 +33,6 @@ const StackTabs = () => {
         options={{ headerShown: false }}
       />
 
-      <Stack.Screen
-        name="RestaurantTableList"
-        component={RestaurantTableList}
-        options={{ headerShown: false }}
-      />
     </Stack.Navigator>
   );
 }

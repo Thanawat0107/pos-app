@@ -5,7 +5,6 @@ import menuCategoryApi from "../services/menuCategoryApi";
 import menuItemApi from "../services/menuItemApi";
 import shoppingCartSlice from "./slices/shoppingCartSlice";
 import shoppingCartApi from "../services/shoppingCartApi";
-import restaurantTableApi from "../services/restaurantTableApi";
 import menuItemOptionApi from "../services/menuItemOptionApi";
 
 export const store = configureStore({
@@ -16,7 +15,6 @@ export const store = configureStore({
     [menuCategoryApi.reducerPath]: menuCategoryApi.reducer,
     [menuItemApi.reducerPath]: menuItemApi.reducer,
     [menuItemOptionApi.reducerPath]: menuItemOptionApi.reducer,
-    [restaurantTableApi.reducerPath]: restaurantTableApi.reducer,
     [shoppingCartApi.reducerPath]: shoppingCartApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -25,7 +23,6 @@ export const store = configureStore({
       menuCategoryApi.middleware,
       menuItemApi.middleware,
       menuItemOptionApi.middleware,
-      restaurantTableApi.middleware,
       shoppingCartApi.middleware,
     ),
 });

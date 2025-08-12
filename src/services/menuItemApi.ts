@@ -3,8 +3,6 @@ import { baseUrlAPI } from "../helpers/SD";
 import { ApiResponse } from "../@types/responsts/ApiResponse";
 import { MenuItem } from "../@types/dto/MenuItem";
 import { PaginationMeta } from "../@types/responsts/PaginationMeta";
-import { CreateMenuCategory } from "../@types/createDto/CreateMenuCategory";
-import { UpdateMenuCategory } from "../@types/updateDto/UpdateMenuCategory";
 import { CreateMenuItem } from "../@types/createDto/CreateMenuItem";
 import { UpdateMenuItem } from "../@types/updateDto/UpdateMenuItem";
 

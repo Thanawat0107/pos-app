@@ -3,14 +3,22 @@ import React from 'react'
 import { styles } from './CartItem.Style';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const CartItem = ({ item }) => {
+const CartItem = ({ item }: any) => {
   return (
     <View style={styles.card}>
-      <Image source={item.image} style={styles.image} />
+      {item.menuItemImage ? (
+        <Image
+          source={{ uri: item.menuItemImage }}
+          style={styles.image}
+          resizeMode="cover"
+        />
+      ) : (
+        <View style={[styles.image, { backgroundColor: "#eee" }]} />
+      )}
 
       <View style={styles.info}>
-        <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.price}>${item.price}</Text>
+        <Text style={styles.name}>{item.menuItemName}</Text>
+        <Text style={styles.price}>ราคา {item.price}</Text>
 
         <View style={styles.quantityContainer}>
           <TouchableOpacity style={styles.circleBtn}>
@@ -21,6 +29,17 @@ const CartItem = ({ item }) => {
             <Text style={styles.circleText}>+</Text>
           </TouchableOpacity>
         </View>
+
+        {item.options.length > 0 && (
+          <View style={{ marginTop: 4 }}>
+            {item.options.map((opt: any) => (
+              <Text key={opt.optionId} style={{ fontSize: 15, color: "#555" }}>
+                • {opt.optionGroupName}: {opt.optionValueName} (+
+                {opt.extraPrice})
+              </Text>
+            ))}
+          </View>
+        )}
       </View>
 
       <TouchableOpacity style={styles.deleteBtn}>

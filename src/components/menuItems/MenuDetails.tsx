@@ -10,6 +10,10 @@ import { useGetMenuByIdQuery } from "../../services/menuItemApi";
 import Loading from "../Loading";
 import Error from "../Error";
 import ReusableDialog from "../ReusableDialog";
+import { useAddtoCartMutation } from "../../services/shoppingCartApi";
+import { AddToCart } from "../../@types/createDto/AddToCart";
+import { getCartToken } from "../../helpers/cartTokenStorage";
+import { useAppSelector } from "../../hooks/useAppHookState";
 
 type MenuDetailsRouteProp = RouteProp<RootStackParamList, "MenuDetails">;
 
@@ -19,6 +23,7 @@ const MenuDetails = () => {
   const navigation = useAppNavigation();
 
   const { data: menu, isLoading, isError } = useGetMenuByIdQuery(menuId);
+  const [addToCart, { isLoading: isAdding }] = useAddtoCartMutation();
 
   const [selectedOptions, setSelectedOptions] = useState<{
     [optionId: number]: number[];
@@ -91,26 +96,46 @@ const MenuDetails = () => {
     return null;
   };
 
-  const handleAddToCart = () => {
-    const error = validateRequiredOptions();
+  const userId = useAppSelector((state) => state.auth.userId);
 
+  const handleAddToCart = async () => {
+    const error = validateRequiredOptions();
     if (error) {
       setModalMessage(error);
       setModalVisible(true);
       return;
     }
+    if (!menu) return;
 
-    // TODO: ส่งข้อมูลไป Redux/cart หรือ API
-    setModalMessage("เพิ่มลงตะกร้าเรียบร้อยแล้ว!");
-    setModalVisible(true);
+    try {
+      const token = await getCartToken();
+      const selectedOptionIds = Object.values(selectedOptions).flat();
+
+      const payload: AddToCart = {
+        cartToken: token,
+        menuItemId: menu.id,
+        quantity: count,
+        ...(userId ? { userId } : {}),
+        ...(selectedOptionIds.length ? { optionIds: selectedOptionIds } : {}),
+      };
+
+      await addToCart(payload).unwrap();
+
+      setCount(1);
+      setSelectedOptions({});
+      setModalMessage("เพิ่มลงตะกร้าเรียบร้อยแล้ว!");
+      setModalVisible(true);
+    } catch (err) {
+      console.error("❌ เพิ่มลงตะกร้าล้มเหลว", err);
+      setModalMessage("เกิดข้อผิดพลาดในการเพิ่มลงตะกร้า");
+      setModalVisible(true);
+    }
   };
-
   if (isLoading) return <Loading />;
   if (isError || !menu) return <Error />;
 
   return (
     <ScrollView style={styles.container}>
-      {/* Top icons */}
       <View style={styles.upperRow}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back-circle" size={30} />
@@ -126,7 +151,6 @@ const MenuDetails = () => {
         </View>
       </View>
 
-      {/* Image */}
       <View style={styles.imageWepper}>
         <Image
           source={{ uri: `${menu.imageUrl}` }}
@@ -135,7 +159,6 @@ const MenuDetails = () => {
       </View>
 
       <View style={styles.contentContainer}>
-        {/* Title + Price */}
         <View style={styles.titleRow}>
           <Text style={styles.title}>{menu.name}</Text>
           <View style={styles.priceWrapper}>
@@ -143,7 +166,6 @@ const MenuDetails = () => {
           </View>
         </View>
 
-        {/* Rating + Quantity */}
         <View style={styles.ratingRow}>
           <View style={styles.rating}>
             <Ionicons name="star" size={20} color="gold" />
@@ -237,7 +259,6 @@ const MenuDetails = () => {
             );
           })}
 
-        {/* Description */}
         <View style={styles.descriptionWrapper}>
           <Text style={styles.description}>คำอธิบาย</Text>
           <Text style={styles.descText}>{menu.description}</Text>
@@ -245,17 +266,23 @@ const MenuDetails = () => {
 
         {/* Bottom Cart Row */}
         <View style={styles.cartRow}>
-          <TouchableOpacity onPress={handleAddToCart} style={styles.cartBtn}>
+          <TouchableOpacity
+            onPress={handleAddToCart}
+            style={[
+              styles.cartBtn,
+              isAdding && { backgroundColor: COLORS.gray }, // ป้องกัน spam
+            ]}
+            disabled={isAdding}
+          >
             <View style={styles.cartBtnContent}>
-              {/* Left: Add to cart */}
               <View style={styles.leftBox}>
-                <Text style={styles.cartTitle}>เพิ่มลงในตะกร้า</Text>
+                <Text style={styles.cartTitle}>
+                  {isAdding ? "กำลังเพิ่ม..." : "เพิ่มลงในตะกร้า"}
+                </Text>
               </View>
 
-              {/* Divider */}
               <View style={styles.divider} />
 
-              {/* Right: Price */}
               <View style={styles.rightBox}>
                 <Text style={styles.addCartText}>
                   ฿ {getTotalPrice().toFixed(2)}

@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { baseUrlAPI } from "../helpers/SD";
 import { ApiResponse } from "../@types/responsts/ApiResponse";
-import { ShoppingCart } from "../@types/dto/ShoppingCart";
 import { CartItem } from "../@types/dto/CartItem";
 import { AddToCart } from "../@types/createDto/AddToCart";
 import { UpdateCartItem } from "../@types/updateDto/UpdateCartItem";
@@ -12,43 +11,49 @@ export const shoppingCartApi = createApi({
     baseUrl: baseUrlAPI,
   }),
   tagTypes: ["ShoppingCart"],
+  refetchOnFocus: true, // กลับมาโฟกัสแอปแล้วรีเฟรช
+  refetchOnReconnect: true, // เน็ตกลับมาแล้วรีเฟรช
   endpoints: (builder) => ({
-    getCartByTable: builder.query({
-      query: (id) => `shoppingCarts/table/${id}`,
+    getCartByToken: builder.query({
+      query: (cartToken) => `shoppingCarts/cart/${cartToken}`,
       transformResponse: (response: ApiResponse<CartItem[]>) => {
-        if (response.result) return response.result;
-        throw new Error(response.message);
+        if (!response.isSuccess) throw new Error(response.message);
+        return response.result ?? [];
       },
-      providesTags: (result, error, id) => [{ type: "ShoppingCart", id }],
+      providesTags: (result, error, cartToken) => [
+        { type: "ShoppingCart", cartToken },
+      ],
     }),
 
-    addtoCart: builder.mutation<ShoppingCart, AddToCart>({
+    addtoCart: builder.mutation<void, AddToCart>({
       query: (body) => ({
         url: "shoppingCarts/addToCart",
         method: "POST",
         body,
       }),
-      transformResponse: (response: ApiResponse<ShoppingCart>) => {
-        if (response.result) return response.result;
+      transformResponse: (response: ApiResponse<any>) => {
+        if (response.isSuccess) return;
         throw new Error(response.message);
       },
-      invalidatesTags: ["ShoppingCart"],
+      invalidatesTags: (res, err, arg) => [
+        { type: "ShoppingCart", cartToken: arg.cartToken },
+      ],
     }),
 
-    updateCartItem: builder.mutation<ShoppingCart, { data: UpdateCartItem }>({
+    updateCartItem: builder.mutation<void, { data: UpdateCartItem }>({
       query: ({ data }) => ({
         url: `shoppingCarts/updateItem`,
         method: "PUT",
         body: data,
       }),
-      transformResponse: (response: ApiResponse<ShoppingCart>) => {
-        if (response.result) return response.result;
-        throw new Error(response.message);
+      transformResponse: (response: ApiResponse<any>) => {
+        if (!response.isSuccess) throw new Error(response.message);
+        return;
       },
       invalidatesTags: ["ShoppingCart"],
     }),
 
-    removeCartItem: builder.mutation<void, number>({
+    removeCartItem: builder.mutation<void, { id: number; cartToken: string }>({
       query: (id) => ({
         url: `shoppingCarts/removeItem/${id}`,
         method: "DELETE",
@@ -60,7 +65,7 @@ export const shoppingCartApi = createApi({
       invalidatesTags: ["ShoppingCart"],
     }),
 
-    clearCart: builder.mutation<void, number>({
+    clearCart: builder.mutation<void, { cartId: number; cartToken: string }>({
       query: (id) => ({
         url: `shoppingCarts/clear/${id}`,
         method: "DELETE",
@@ -75,7 +80,7 @@ export const shoppingCartApi = createApi({
 });
 
 export const {
-    useGetCartByTableQuery,
+    useGetCartByTokenQuery,
     useAddtoCartMutation,
     useUpdateCartItemMutation,
     useRemoveCartItemMutation,
