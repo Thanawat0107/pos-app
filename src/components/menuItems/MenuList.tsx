@@ -62,6 +62,7 @@ const MenuList = () => {
           styles.flatListContainer,
           { paddingHorizontal: horizontalPadding },
         ]}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );

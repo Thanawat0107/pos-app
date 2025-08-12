@@ -6,7 +6,7 @@ const HomeScreen = () => {
   useAuth();
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <Home />
     </ScrollView>
   );

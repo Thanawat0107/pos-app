@@ -4,18 +4,25 @@ import { hp } from '../../helpers/common';
 
 export const styles = StyleSheet.create({
   container: {
+    paddingTop: hp(6),
     paddingHorizontal: SIZES.medium,
     paddingBottom: hp(8),
   },
   header: {
-    marginTop: hp(5),
     marginBottom: 10,
   },
   title: {
     fontWeight: "bold",
     fontSize: 20,
-    marginHorizontal: "auto",
+    textAlign: "center",
     marginBottom: 10,
+  },
+  stickyBar: {
+    backgroundColor: COLORS.white,
+    borderTopWidth: 1,
+    borderTopColor: "#eee",
+    paddingHorizontal: SIZES.medium,
+    paddingTop: 8,
   },
   promoContainer: {
     flexDirection: "row",
@@ -62,32 +69,31 @@ export const styles = StyleSheet.create({
   },
   checkoutText: { color: "white", fontWeight: "bold", fontSize: 16 },
   cartItemContainer: {
-  flexDirection: 'row',
-  marginVertical: 10,
-  padding: 10,
-  borderWidth: 1,
-  borderColor: '#ddd',
-  borderRadius: 8,
-},
+    flexDirection: "row",
+    marginVertical: 10,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 8,
+  },
 
-cartItemImage: {
-  width: 80,
-  height: 80,
-  borderRadius: 8,
-  marginRight: 10,
-},
+  cartItemImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 8,
+    marginRight: 10,
+  },
 
-cartItemDetails: {
-  flex: 1,
-},
+  cartItemDetails: {
+    flex: 1,
+  },
 
-optionText: {
-  fontSize: 12,
-  color: '#555',
-},
+  optionText: {
+    fontSize: 12,
+    color: "#555",
+  },
 
-optionsContainer: {
-  marginTop: 4,
-},
-
+  optionsContainer: {
+    marginTop: 4,
+  },
 });

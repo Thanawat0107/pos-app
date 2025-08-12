@@ -109,7 +109,7 @@ const ProfileItem = () => {
   ];
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
       {isLoggedIn && (
         <View style={styles.profileBox}>
           <Image

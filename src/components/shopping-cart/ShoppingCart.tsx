@@ -1,11 +1,20 @@
-import { View, Text, FlatList, TouchableOpacity, ScrollView, ActivityIndicator, Image } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, ScrollView, ActivityIndicator, Image } from 'react-native';
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import React, { useEffect, useState } from 'react'
 import { styles } from './ShoppingCart.Style';
 import CartItem from './CartItem';
 import { useGetCartByTokenQuery } from "../../services/shoppingCartApi";
 import { getCartToken } from '../../helpers/cartTokenStorage';
 
+const CTA_HEIGHT = 50; // ความสูงปุ่ม
+
 const ShoppingCart = () => {
+  const insets = useSafeAreaInsets();
+  const tabBarHeight = useBottomTabBarHeight(); // สูงของ BottomTab
+   // เผื่อพื้นที่ให้รายการ ไม่ให้โดนปุ่มทับ
+  const listPaddingBottom = CTA_HEIGHT + tabBarHeight + insets.bottom + 36;
+
   const [cartToken, setCartToken] = useState<string | null>(null);
 
   useEffect(() => {
@@ -22,6 +31,7 @@ const ShoppingCart = () => {
   } = useGetCartByTokenQuery(cartToken, {
     skip: !cartToken,
   });
+  
   if (isLoading) {
     return (
       <ActivityIndicator size="large" color="#000" style={{ marginTop: 20 }} />
@@ -44,40 +54,66 @@ const ShoppingCart = () => {
   const totalAmount = subtotal + extraTotal;
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={{ flex: 1, backgroundColor: "#fff" }}>
       <FlatList
         data={cart}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <CartItem item={item} />}
-        scrollEnabled={false}
         ListHeaderComponent={
           <View style={styles.header}>
             <Text style={styles.title}>ตะกร้าสินค้า</Text>
           </View>
         }
+        ListFooterComponent={
+          <View style={styles.summary}>
+            <Text style={styles.summaryLabel}>สรุปคำสั่งซื้อ</Text>
+            <View style={styles.row}>
+              <Text>รวมย่อย</Text>
+              <Text>ราคา {subtotal}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text>ส่วนเสริม</Text>
+              <Text>ราคา {extraTotal}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.totalLabel}>ทั้งหมด</Text>
+              <Text style={styles.totalAmount}>ราคา {totalAmount}</Text>
+            </View>
+          </View>
+        }
+        // ใช้ styles.container เดิม + เติม paddingBottom ทับลงไป
+        contentContainerStyle={[
+          styles.container,
+          { paddingBottom: listPaddingBottom },
+        ]}
+        showsVerticalScrollIndicator={false}
       />
 
-      <View style={styles.summary}>
-        <Text style={styles.summaryLabel}>สรุปคำสั่งซื้อ</Text>
-
-        <View style={styles.row}>
-          <Text>รวมย่อย</Text>
-          <Text>ราคา {subtotal}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text>ส่วนเสริม</Text>
-          <Text>ราคา {extraTotal}</Text>
-        </View>
-        <View style={styles.row}>
+      {/* แถบล่าง: ใช้ stickyBar เดิม + ใส่ตำแหน่งให้ลอยเหนือแท็บ */}
+      <View
+        style={[
+          styles.stickyBar,
+          {
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: tabBarHeight, // ยกขึ้นเหนือ BottomTab
+            paddingBottom: insets.bottom + 8,
+          },
+        ]}
+      >
+        <View style={[styles.row, { marginBottom: 8 }]}>
           <Text style={styles.totalLabel}>ทั้งหมด</Text>
           <Text style={styles.totalAmount}>ราคา {totalAmount}</Text>
         </View>
-      </View>
 
-      <TouchableOpacity style={styles.checkoutButton}>
-        <Text style={styles.checkoutText}>สั่งออเดอร์</Text>
-      </TouchableOpacity>
-    </ScrollView>
+        <TouchableOpacity
+          style={[styles.checkoutButton, { height: CTA_HEIGHT }]}
+        >
+          <Text style={styles.checkoutText}>สั่งออเดอร์</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
