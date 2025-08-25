@@ -6,6 +6,7 @@ import menuItemApi from "../services/menuItemApi";
 import shoppingCartSlice from "./slices/shoppingCartSlice";
 import shoppingCartApi from "../services/shoppingCartApi";
 import menuItemOptionApi from "../services/menuItemOptionApi";
+import orderTagApi from "../services/orderTagApi";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     [menuItemApi.reducerPath]: menuItemApi.reducer,
     [menuItemOptionApi.reducerPath]: menuItemOptionApi.reducer,
     [shoppingCartApi.reducerPath]: shoppingCartApi.reducer,
+    [orderTagApi.reducerPath]: orderTagApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -24,6 +26,7 @@ export const store = configureStore({
       menuItemApi.middleware,
       menuItemOptionApi.middleware,
       shoppingCartApi.middleware,
+      orderTagApi.middleware,
     ),
 });
 

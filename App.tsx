@@ -7,6 +7,22 @@ import useCustomFonts from './src/hooks/useCustomFonts';
 import React, { useCallback } from 'react';
 import Loading from './src/components/Loading';
 import AppContent from './AppContent';
+import * as ExpoLinking from "expo-linking"; // ✅ import ให้ถูก
+
+// ✅ config linking (รองรับทั้ง Expo Go และ build จริง)
+const linking = {
+  prefixes: [ExpoLinking.createURL("/"), "posapp://"], // ✅ ใช้ ExpoLinking
+  config: {
+    screens: {
+      RootTabs: {
+        path: "",
+        screens: {
+          Home: "",
+        },
+      },
+    },
+  },
+};
 
 export default function App() {
   const [fontsLoaded, fontError] = useCustomFonts();
@@ -24,9 +40,9 @@ export default function App() {
   return (
     <Provider store={store}>
       <PaperProvider>
-          <NavigationContainer onReady={onLayoutRootView}>
-            <AppContent />
-          </NavigationContainer>
+        <NavigationContainer linking={linking} onReady={onLayoutRootView}>
+          <AppContent />
+        </NavigationContainer>
       </PaperProvider>
     </Provider>
   );

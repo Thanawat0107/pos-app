@@ -1,4 +1,5 @@
 export interface UpdateCartItem {
-    cartItemId: number;
-    quantity: number;
+  cartToken: string;
+  cartItemId: number;
+  quantity: number;
 }

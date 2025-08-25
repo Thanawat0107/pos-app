@@ -10,6 +10,7 @@ type RouteConfig = {
 const routeMap: Record<string, RouteConfig> = {
   "เข้าสู่ระบบ": { name: "Login" },
   "ออกจากระบบ": { name: "Login" },
+  "ออเดอร์แท็ก": { name: "OrderTagList" },
 };
 
 export const useTitleNavigation = () => {

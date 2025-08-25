@@ -31,6 +31,16 @@ const ProfileItem = () => {
   const email = useAppSelector((state) => state.auth.email);
   const menuProfile = [
     {
+      title: "ออเดอร์แท็ก",
+      icon: (
+        <MaterialIcons
+          name="history"
+          size={SIZES.xLarge}
+          color={COLORS.red_orange}
+        />
+      ),
+    },
+    {
       title: "ประวัติการสั่งซื้อ",
       icon: (
         <MaterialIcons

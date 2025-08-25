@@ -1,9 +1,9 @@
-import { View, Text, FlatList, TouchableOpacity, ScrollView, ActivityIndicator, Image } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import React, { useEffect, useState } from 'react'
 import { styles } from './ShoppingCart.Style';
-import CartItem from './CartItem';
+import CartItem from './ShoppingCartItem';
 import { useGetCartByTokenQuery } from "../../services/shoppingCartApi";
 import { getCartToken } from '../../helpers/cartTokenStorage';
 
@@ -15,7 +15,7 @@ const ShoppingCart = () => {
    // เผื่อพื้นที่ให้รายการ ไม่ให้โดนปุ่มทับ
   const listPaddingBottom = CTA_HEIGHT + tabBarHeight + insets.bottom + 36;
 
-  const [cartToken, setCartToken] = useState<string | null>(null);
+  const [cartToken, setCartToken] = useState<string>("");
 
   useEffect(() => {
     (async () => {
@@ -28,6 +28,8 @@ const ShoppingCart = () => {
     data: cart,
     isLoading,
     error,
+    refetch,
+    isFetching,
   } = useGetCartByTokenQuery(cartToken, {
     skip: !cartToken,
   });
@@ -58,7 +60,7 @@ const ShoppingCart = () => {
       <FlatList
         data={cart}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <CartItem item={item} />}
+        renderItem={({ item }) => <CartItem item={item} cartToken={cartToken} />}
         ListHeaderComponent={
           <View style={styles.header}>
             <Text style={styles.title}>ตะกร้าสินค้า</Text>
@@ -81,6 +83,8 @@ const ShoppingCart = () => {
             </View>
           </View>
         }
+        refreshing={isFetching}
+        onRefresh={refetch}
         // ใช้ styles.container เดิม + เติม paddingBottom ทับลงไป
         contentContainerStyle={[
           styles.container,

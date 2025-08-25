@@ -4,6 +4,7 @@ import RootTabs from './RootTabs';
 import Login from '../components/login/Login';
 import Register from '../components/register/Register';
 import MenuDetails from '../components/menuItems/MenuDetails';
+import OrderTagList from '../components/orderTags/OrderTagList';
 const Stack = createNativeStackNavigator();
 
 const StackTabs = () => {
@@ -33,6 +34,11 @@ const StackTabs = () => {
         options={{ headerShown: false }}
       />
 
+      <Stack.Screen
+        name="OrderTagList"
+        component={OrderTagList}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }

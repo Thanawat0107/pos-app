@@ -12,8 +12,8 @@ import Error from "../Error";
 import ReusableDialog from "../ReusableDialog";
 import { useAddtoCartMutation } from "../../services/shoppingCartApi";
 import { AddToCart } from "../../@types/createDto/AddToCart";
-import { getCartToken } from "../../helpers/cartTokenStorage";
 import { useAppSelector } from "../../hooks/useAppHookState";
+import { getCartToken } from "../../helpers/cartTokenStorage";
 
 type MenuDetailsRouteProp = RouteProp<RootStackParamList, "MenuDetails">;
 
@@ -112,6 +112,7 @@ const MenuDetails = () => {
       const selectedOptionIds = Object.values(selectedOptions).flat();
 
       const payload: AddToCart = {
+        isSplit: false,
         cartToken: token,
         menuItemId: menu.id,
         quantity: count,

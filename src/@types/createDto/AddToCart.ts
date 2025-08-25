@@ -3,5 +3,6 @@ export interface AddToCart {
     quantity: number;
     optionIds?: number[];
     userId?: string;
-    cartToken?: string;
+    cartToken: string;
+    isSplit: boolean;
 } 

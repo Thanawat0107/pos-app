@@ -1,5 +1,6 @@
-import { View, StyleSheet, Text } from "react-native";
+import {} from "react-native";
 import React from "react";
+import { View, StyleSheet, Text } from "react-native"; // ใช้ getInitialURL(), addEventListener
 import Carousels from "../layouts/Carousels";
 import Headings from "../layouts/Headings";
 import SearchBar from "../SearchBar";
@@ -10,12 +11,11 @@ import Navber from "../layouts/Navber";
 import { hp } from "../../helpers/common";
 
 const Home = () => {
+
   return (
     <View style={styles.container}>
       <Navber />
-      <Text style={welcomeText(COLORS.red_orange, 0)}>
-        ร้านอาหารขนาดเล็ก
-      </Text>
+      <Text style={welcomeText(COLORS.red_orange, 0)}>ร้านอาหารขนาดเล็ก</Text>
       <Text style={welcomeText(COLORS.tertiary, 0)}>ยินดีต้อนรับ</Text>
       <SearchBar />
       <Headings title="ข้อเสนอพิเศษ" />
