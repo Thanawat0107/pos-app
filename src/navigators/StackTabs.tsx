@@ -5,6 +5,7 @@ import Login from '../components/login/Login';
 import Register from '../components/register/Register';
 import MenuDetails from '../components/menuItems/MenuDetails';
 import OrderTagList from '../components/orderTags/OrderTagList';
+import OrderList from '../components/orders/OrderList';
 const Stack = createNativeStackNavigator();
 
 const StackTabs = () => {
@@ -37,6 +38,11 @@ const StackTabs = () => {
       <Stack.Screen
         name="OrderTagList"
         component={OrderTagList}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="OrderList"
+        component={OrderList}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

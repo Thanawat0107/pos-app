@@ -1,5 +1,5 @@
 import { View, Text, FlatList } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useGetMenuAllQuery } from "../../services/menuItemApi";
 import Loading from "../Loading";
 import Error from "../Error";
@@ -8,28 +8,33 @@ import MenuCard from "./MenuCard";
 import { getCardWidth, wp } from "../../helpers/common";
 import SearchBar from "../SearchBar";
 import FilterSortBar from "../filters/FilterSortBar";
+import Pagination from "../pagination/Pagination";
+
+const numColumns = 2;
+const spacingPercent = 4;
+const paddingPercent = 3;
 
 const MenuList = () => {
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(6);
+
   const {
     data: menuList,
     isLoading,
     isError,
   } = useGetMenuAllQuery({
-    pageNumber: 1,
-    pageSize: 10,
+    pageNumber ,
+    pageSize,
   });
 
   if (isLoading) return <Loading />;
   if (isError || !menuList) return <Error />;
 
   const menuItems = menuList?.result ?? [];
+  const meta = menuList?.meta;
 
-  const numColumns = 2;
-  const spacingPercent = 4;
-  const paddingPercent = 3;
-
-  const itemSpacing = wp(spacingPercent); // ระยะห่างระหว่างการ์ด
-  const horizontalPadding = wp(paddingPercent); // padding ซ้ายขวา
+  const itemSpacing = wp(spacingPercent);
+  const horizontalPadding = wp(paddingPercent);
   const cardWidth = getCardWidth(numColumns, spacingPercent, paddingPercent);
 
   return (
@@ -63,6 +68,21 @@ const MenuList = () => {
           { paddingHorizontal: horizontalPadding },
         ]}
         showsVerticalScrollIndicator={false}
+        ListFooterComponent={
+          meta && (
+            <Pagination
+              meta={meta}
+              page={pageNumber - 1}
+              numberOfItemsPerPage={pageSize}
+              onPageChange={(page) => setPageNumber(page + 1)}
+              onItemsPerPageChange={(size) => {
+                setPageSize(size);
+                setPageNumber(1);
+              }}
+              numberOfItemsPerPageList={[6, 11, 21]}
+            />
+          )
+        }
       />
     </View>
   );

@@ -1,18 +1,26 @@
-import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import React, { useEffect, useState } from 'react'
-import { styles } from './ShoppingCart.Style';
-import CartItem from './ShoppingCartItem';
+import React, { useEffect, useState } from "react";
+import { styles } from "./ShoppingCart.Style";
+import CartItem from "./ShoppingCartItem";
 import { useGetCartByTokenQuery } from "../../services/shoppingCartApi";
-import { getCartToken } from '../../helpers/cartTokenStorage';
+import { getCartToken } from "../../helpers/cartTokenStorage";
+import { useConfirmCartMutation } from "../../services/orderApi";
+import ReusableDialog from "../ReusableDialog";
 
 const CTA_HEIGHT = 50; // ความสูงปุ่ม
 
 const ShoppingCart = () => {
   const insets = useSafeAreaInsets();
   const tabBarHeight = useBottomTabBarHeight(); // สูงของ BottomTab
-   // เผื่อพื้นที่ให้รายการ ไม่ให้โดนปุ่มทับ
+  // เผื่อพื้นที่ให้รายการ ไม่ให้โดนปุ่มทับ
   const listPaddingBottom = CTA_HEIGHT + tabBarHeight + insets.bottom + 36;
 
   const [cartToken, setCartToken] = useState<string>("");
@@ -33,7 +41,31 @@ const ShoppingCart = () => {
   } = useGetCartByTokenQuery(cartToken, {
     skip: !cartToken,
   });
-  
+
+  const [confirmCart, { isLoading: isConfirming }] = useConfirmCartMutation();
+
+  const handleConfirmOrder = async () => {
+    try {
+      const result = await confirmCart({ cartToken }).unwrap();
+
+      setDialogStatus("success");
+      setDialogMessage(`ออเดอร์สำเร็จ! รหัสออเดอร์: ${result.orderCode}`);
+      setDialogVisible(true);
+
+      // TODO: clear cart หรือ navigate ไปหน้า Order Status
+    } catch (err: any) {
+      setDialogStatus("error");
+      setDialogMessage(err?.data?.message || "ไม่สามารถยืนยันออเดอร์ได้");
+      setDialogVisible(true);
+    }
+  };
+
+  const [dialogVisible, setDialogVisible] = useState(false);
+  const [dialogStatus, setDialogStatus] = useState<"success" | "error">(
+    "success"
+  );
+  const [dialogMessage, setDialogMessage] = useState("");
+
   if (isLoading) {
     return (
       <ActivityIndicator size="large" color="#000" style={{ marginTop: 20 }} />
@@ -60,7 +92,9 @@ const ShoppingCart = () => {
       <FlatList
         data={cart}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <CartItem item={item} cartToken={cartToken} />}
+        renderItem={({ item }) => (
+          <CartItem item={item} cartToken={cartToken} />
+        )}
         ListHeaderComponent={
           <View style={styles.header}>
             <Text style={styles.title}>ตะกร้าสินค้า</Text>
@@ -113,12 +147,25 @@ const ShoppingCart = () => {
 
         <TouchableOpacity
           style={[styles.checkoutButton, { height: CTA_HEIGHT }]}
+          onPress={handleConfirmOrder}
+          disabled={isConfirming}
         >
-          <Text style={styles.checkoutText}>สั่งออเดอร์</Text>
+          <Text style={styles.checkoutText}>
+            {isConfirming ? "กำลังส่ง..." : "สั่งออเดอร์"}
+          </Text>
         </TouchableOpacity>
       </View>
+      <ReusableDialog
+        visible={dialogVisible}
+        status={dialogStatus}
+        title={dialogStatus === "success" ? "สำเร็จ" : "เกิดข้อผิดพลาด"}
+        message={dialogMessage}
+        rightButtonText="ตกลง"
+        onConfirm={() => setDialogVisible(false)}
+        onDismiss={() => setDialogVisible(false)}
+      />
     </View>
   );
 };
 
-export default ShoppingCart
+export default ShoppingCart;

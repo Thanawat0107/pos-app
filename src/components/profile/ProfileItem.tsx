@@ -13,6 +13,7 @@ import ReusableDialog from "../ReusableDialog";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppHookState";
 import { logout } from "../../store/slices/authSlice";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
+import { List } from "react-native-paper";
 
 const ProfileItem = () => {
   const dispatch = useAppDispatch();
@@ -23,7 +24,9 @@ const ProfileItem = () => {
   const handleLogout = useCallback(() => {
     dispatch(logout());
     setShowConfirmLogout(false);
-    navigation.replace("RootTabs");
+    navigation.replace("RootTabs", {
+      screen: "Home",
+    });
   }, [dispatch, navigation]);
 
   const isLoggedIn = useAppSelector((state) => !!state.auth.isAuthenticated);
@@ -34,7 +37,7 @@ const ProfileItem = () => {
       title: "ออเดอร์แท็ก",
       icon: (
         <MaterialIcons
-          name="history"
+          name="table-bar"
           size={SIZES.xLarge}
           color={COLORS.red_orange}
         />
@@ -119,7 +122,10 @@ const ProfileItem = () => {
   ];
 
   return (
-    <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false}
+    >
       {isLoggedIn && (
         <View style={styles.profileBox}>
           <Image
@@ -139,6 +145,36 @@ const ProfileItem = () => {
           </TouchableOpacity>
         </View>
       )}
+
+      <List.Section>
+        <List.Accordion
+          title="การจัดการ"
+          titleStyle={{ fontSize: 18, color: "#333" }}
+          left={(props) => <List.Icon {...props} icon="clipboard-list" />}
+          style={{ backgroundColor: COLORS.light_red, borderRadius: 10 }}
+        >
+          <List.Item
+            title="จัดการออเดอร์"
+            titleStyle={{ color: "blue", fontSize: 16 }}
+            left={(props) => <List.Icon {...props} icon="file-document" />}
+            right={(props) => <List.Icon {...props} icon="chevron-right" />}
+            onPress={() => navigation.navigate("OrderList")}
+            style={{
+              backgroundColor: "#fff",
+              borderBottomWidth: 1,
+              borderColor: "#ddd",
+            }}
+          />
+          {/* <List.Item
+            title="ออเดอร์ที่เสร็จแล้ว"
+            description="ดูรายการออเดอร์ที่เสร็จสิ้น"
+            titleStyle={{ color: "green" }}
+            left={(props) => <List.Icon {...props} icon="check-circle" />}
+            right={() => <Text style={{ color: "gray" }}>✔</Text>}
+            onPress={() => {}}
+          /> */}
+        </List.Accordion>
+      </List.Section>
 
       {/** Menu items */}
       {menuProfile.map((item, index) => (
