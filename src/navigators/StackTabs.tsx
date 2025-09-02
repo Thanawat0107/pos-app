@@ -6,6 +6,7 @@ import Register from '../components/register/Register';
 import MenuDetails from '../components/menuItems/MenuDetails';
 import OrderTagList from '../components/orderTags/OrderTagList';
 import OrderList from '../components/orders/OrderList';
+import OrderDetails from '../components/orders/OrderDetails';
 const Stack = createNativeStackNavigator();
 
 const StackTabs = () => {
@@ -43,6 +44,12 @@ const StackTabs = () => {
       <Stack.Screen
         name="OrderList"
         component={OrderList}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="OrderDetails"
+        component={OrderDetails}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

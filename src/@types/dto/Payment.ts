@@ -1,4 +1,5 @@
 export interface Payment {
+    id: number;
     paymentMethod: string;
     totalAmount: number;
     paidAt: string;

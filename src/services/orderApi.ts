@@ -2,7 +2,6 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { baseUrlAPI } from "../helpers/SD";
 import { ApiResponse } from "../@types/responsts/ApiResponse";
 import { OrderHeader } from "../@types/dto/OrderHeader";
-import { CreateOrder } from "../@types/createDto/CreateOrder";
 import { UpdateOrder } from "../@types/updateDto/UpdateOrder";
 import { PaginationMeta } from "../@types/responsts/PaginationMeta";
 import { ConfirmCartRequest } from "../@types/createDto/ConfirmCartRequest";

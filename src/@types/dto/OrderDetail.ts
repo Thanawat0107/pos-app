@@ -1,17 +1,19 @@
 import { OrderDetailOption } from "./OrderDetailOption";
 
 export interface OrderDetail {
-    id: number;
-    menuItemName: string;
-    unitPrice: number;
-    quantity: number;
-    extraPrice: number;
-    totalPrice: number;
-    note?: string;
+  id: number;
+  menuItemId: number;
+  menuItemName: string;
+  menuItemImage: string;
+  unitPrice: number;
+  quantity: number;
+  extraPrice: number;
+  totalPrice: number;
+  note?: string;
 
-    orderDetailOption: OrderDetailOption[];
+  orderDetailOptions: OrderDetailOption[];
 
-    isCancelled: boolean;
-    updatedAt: string;
-    cancelledAt: string;
+  isCancelled: boolean;
+  updatedAt: string;
+  cancelledAt: string;
 }

@@ -2,17 +2,30 @@ import { OrderDetail } from "./OrderDetail";
 import { Payment } from "./Payment";
 
 export interface OrderHeader {
-    id: number;
-    orderCode: string;
-    orderTag: string;
-    orderType: string;
-    orderStatus: string;
-    subTotal: number;
-    discount: number;
-    total: number;
-    createdAt: string;
-    paidAt: string;
+  id: number;
+  orderCode: string;
+  orderTag: string;
+  orderType: string;
+  userId?: string;
+  customerName?: string;
+  customerNote?: string;
 
-    orderDetails: OrderDetail[];
-    payment: Payment;
+  orderStatus: string;
+  channel: string;
+  createdAt: string;
+  updatedAt?: string;
+  cookingStartedAt?: string;
+  readyAt?: string;
+  servedAt?: string;
+  paidAt?: string;
+  cancelledAt?: string;
+
+  isDeleted: boolean;
+
+  subTotal: number;
+  discount: number;
+  total: number;
+
+  orderDetails: OrderDetail[];
+  payment?: Payment;
 }

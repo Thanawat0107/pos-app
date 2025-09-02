@@ -19,6 +19,6 @@ export type RootStackParamList = {
   RestaurantTableList: undefined;
   OrderTagList: undefined;
   OrderList: undefined;
-  OrderDetail: { orderDetailId: number };
+  OrderDetails: { orderId: number };
   OrderForm: undefined;
 };

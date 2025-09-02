@@ -17,6 +17,8 @@ type ColKey =
   | "orderCode"
   | "orderTag"
   | "orderType"
+  | "customerName"
+  | "channel"
   | "orderStatus"
   | "subTotal"
   | "discount"
@@ -27,18 +29,20 @@ type ColKey =
   | "payment";
 
 const COLS: Array<{ key: ColKey; label: string; width: number; numeric?: boolean }> = [
-  { key: "id",         label: "Order ID",   width: 100 },
-  { key: "orderCode",  label: "Code",       width: 140 },
-  { key: "orderTag",   label: "Tag",        width: 120 },
-  { key: "orderType",  label: "Type",       width: 120 },
-  { key: "orderStatus",label: "Status",     width: 130 },
-  { key: "subTotal",   label: "Subtotal",   width: 120, numeric: true },
-  { key: "discount",   label: "Discount",   width: 110, numeric: true },
-  { key: "total",      label: "Total",      width: 120, numeric: true },
-  { key: "createdAt",  label: "Created",    width: 140 },
-  { key: "paidAt",     label: "Paid",       width: 140 },
-  { key: "items",      label: "Items",      width: 70,  numeric: true },
-  { key: "payment",    label: "Payment",    width: 90 },
+  { key: "id",           label: "Order ID",     width: 90 },
+  { key: "orderCode",    label: "Code",         width: 120 },
+  { key: "orderTag",     label: "Tag",          width: 100 },
+  { key: "orderType",    label: "Type",         width: 100 },
+  { key: "customerName", label: "Customer",     width: 140 },
+  { key: "channel",      label: "Channel",      width: 100 },
+  { key: "orderStatus",  label: "Status",       width: 120 },
+  { key: "subTotal",     label: "Subtotal",     width: 110, numeric: true },
+  { key: "discount",     label: "Discount",     width: 100, numeric: true },
+  { key: "total",        label: "Total",        width: 110, numeric: true },
+  { key: "createdAt",    label: "Created",      width: 130 },
+  { key: "paidAt",       label: "Paid",         width: 130 },
+  { key: "items",        label: "Items",        width: 60,  numeric: true },
+  { key: "payment",      label: "Payment",      width: 80 },
 ];
 
 const TABLE_MIN_WIDTH = COLS.reduce((sum, c) => sum + c.width, 0);
@@ -57,7 +61,7 @@ const formatDateTime = (s?: string) => {
     year: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
-  }).replace(/\//g, '/');
+  });
 };
 
 const getStatusColor = (status?: string) => {
@@ -66,6 +70,19 @@ const getStatusColor = (status?: string) => {
     case 'completed': return '#34C759';
     case 'cancelled': return '#FF3B30';
     case 'processing': return '#007AFF';
+    case 'ready': return '#5AC8FA';
+    case 'served': return '#30D158';
+    case 'cooking': return '#FF6B35';
+    default: return '#8E8E93';
+  }
+};
+
+const getChannelColor = (channel?: string) => {
+  switch (channel?.toLowerCase()) {
+    case 'dine-in': return '#007AFF';
+    case 'takeaway': return '#FF9500';
+    case 'delivery': return '#34C759';
+    case 'online': return '#5856D6';
     default: return '#8E8E93';
   }
 };
@@ -76,6 +93,15 @@ const getStatusBadgeStyle = (status?: string) => ({
   paddingVertical: 4,
   borderRadius: 12,
   minWidth: 70,
+  alignItems: 'center' as const,
+});
+
+const getChannelBadgeStyle = (channel?: string) => ({
+  backgroundColor: getChannelColor(channel),
+  paddingHorizontal: 6,
+  paddingVertical: 3,
+  borderRadius: 8,
+  minWidth: 60,
   alignItems: 'center' as const,
 });
 
@@ -109,23 +135,38 @@ const StatusBadge = ({ status }: { status?: string }) => (
   </View>
 );
 
-const PaymentIcon = ({ paid }: { paid?: boolean }) => (
-  <View
-    style={[
-      styles.paymentIcon,
-      { backgroundColor: paid ? "#34C759" : "#FF3B30" },
-    ]}
-  >
-    <Text style={styles.paymentText}>{paid ? "✓" : "✗"}</Text>
+const ChannelBadge = ({ channel }: { channel?: string }) => (
+  <View style={getChannelBadgeStyle(channel)}>
+    <Text style={[styles.channelText, { color: 'white' }]}>
+      {channel || '—'}
+    </Text>
+  </View>
+);
+
+const PaymentIcon = ({ payment }: { payment?: any }) => {
+  const isPaid = payment && payment.id;
+  return (
+    <View
+      style={[
+        styles.paymentIcon,
+        { backgroundColor: isPaid ? "#34C759" : "#FF3B30" },
+      ]}
+    >
+      <Text style={styles.paymentText}>{isPaid ? "✓" : "✗"}</Text>
+    </View>
+  );
+};
+
+const CustomerName = ({ name }: { name?: string | null }) => (
+  <View style={styles.customerContainer}>
+    <Text style={styles.customerText} numberOfLines={1}>
+      {name || "Walk-in"}
+    </Text>
   </View>
 );
 
 // หยิบ width ตาม key
-const w = (key: ColKey) => ({
-  width: COLS.find((c) => c.key === key)!.width,
-  justifyContent: "center" as const,
-  alignItems: "center" as const,
-});
+const w = (key: ColKey) => ({ width: COLS.find((c) => c.key === key)!.width });
 
 const OrderList = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -160,11 +201,16 @@ const OrderList = () => {
   const orders = data?.data ?? [];
   const meta = data?.meta;
 
+  // Calculate summary statistics
+  const totalRevenue = orders.reduce((sum, order) => sum + (order.total || 0), 0);
+  const paidOrders = orders.filter(order => order.payment?.id).length;
+  const pendingOrders = orders.filter(order => order.orderStatus?.toLowerCase() === 'pending').length;
+
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>การจัดการออเดอร์</Text>
+        <Text style={styles.title}>รายการออเดอร์</Text>
         <TouchableOpacity
           style={styles.createButton}
           onPress={() => navigation.navigate("OrderForm")}
@@ -173,7 +219,7 @@ const OrderList = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Summary */}
+      {/* Summary Stats */}
       {meta && (
         <View style={styles.summaryContainer}>
           <View style={styles.summaryItem}>
@@ -181,15 +227,32 @@ const OrderList = () => {
             <Text style={styles.summaryValue}>{meta.totalCount || 0}</Text>
           </View>
           <View style={styles.summaryItem}>
-            <Text style={styles.summaryLabel}>Current Page</Text>
-            <Text style={styles.summaryValue}>
-              {meta.pageNumber} / {meta.pageCount || 1}
+            <Text style={styles.summaryLabel}>Page Revenue</Text>
+            <Text style={[styles.summaryValue, styles.revenueText]}>
+              {formatBaht(totalRevenue)}
             </Text>
           </View>
           <View style={styles.summaryItem}>
-            <Text style={styles.summaryLabel}>Page Size</Text>
-            <Text style={styles.summaryValue}>{meta.pageSize}</Text>
+            <Text style={styles.summaryLabel}>Paid Orders</Text>
+            <Text style={[styles.summaryValue, styles.paidText]}>
+              {paidOrders}/{orders.length}
+            </Text>
           </View>
+          <View style={styles.summaryItem}>
+            <Text style={styles.summaryLabel}>Pending</Text>
+            <Text style={[styles.summaryValue, styles.pendingText]}>
+              {pendingOrders}
+            </Text>
+          </View>
+        </View>
+      )}
+
+      {/* Page Info */}
+      {meta && (
+        <View style={styles.pageInfoContainer}>
+          <Text style={styles.pageInfo}>
+            Page {meta.pageNumber} of {meta.pageCount || 1} • Showing {orders.length} of {meta.totalCount} orders
+          </Text>
         </View>
       )}
 
@@ -206,12 +269,9 @@ const OrderList = () => {
                 <DataTable.Title
                   key={col.key}
                   numeric={col.numeric}
-                  style={[w(col.key), styles.headerCell]}
+                  style={[w(col.key), styles.headerCell, styles.centerCell]}
                 >
-                  <CellText
-                    align={col.numeric ? "right" : "left"}
-                    style={styles.headerText}
-                  >
+                  <CellText align="center" style={styles.headerText}>
                     {col.label}
                   </CellText>
                 </DataTable.Title>
@@ -230,7 +290,7 @@ const OrderList = () => {
                 <DataTable.Row
                   key={item.id}
                   onPress={() =>
-                    navigation.navigate("OrderDetail", { orderDetailId: item.id })
+                    navigation.navigate("OrderDetails", { orderId: item.id })
                   }
                   style={[
                     styles.tableRow,
@@ -238,69 +298,77 @@ const OrderList = () => {
                   ]}
                 >
                   {/* Order ID */}
-                  <DataTable.Cell style={w("id")}>
-                    <CellText style={styles.idText}>{item.id}</CellText>
+                  <DataTable.Cell style={[w("id"), styles.centerCell]}>
+                    <CellText align="center" style={styles.idText}>{item.id}</CellText>
                   </DataTable.Cell>
 
-                  {/* Code */}
-                  <DataTable.Cell style={w("orderCode")}>
-                    <CellText style={styles.codeText}>
+                  {/* Order Code */}
+                  <DataTable.Cell style={[w("orderCode"), styles.centerCell]}>
+                    <CellText align="center" style={styles.codeText}>
                       {item.orderCode || "—"}
                     </CellText>
                   </DataTable.Cell>
 
-                  {/* Tag */}
-                  <DataTable.Cell style={w("orderTag")}>
-                    <CellText>{item.orderTag || "—"}</CellText>
+                  {/* Order Tag */}
+                  <DataTable.Cell style={[w("orderTag"), styles.centerCell]}>
+                    <CellText align="center" style={styles.tagText}>
+                      {item.orderTag || "—"}
+                    </CellText>
                   </DataTable.Cell>
 
-                  {/* Type */}
-                  <DataTable.Cell style={w("orderType")}>
-                    <CellText>{item.orderType || "—"}</CellText>
+                  {/* Order Type */}
+                  <DataTable.Cell style={[w("orderType"), styles.centerCell]}>
+                    <CellText align="center">
+                      {item.orderType || "—"}
+                    </CellText>
+                  </DataTable.Cell>
+
+                  {/* Customer Name */}
+                  <DataTable.Cell style={[w("customerName"), styles.centerCell]}>
+                    <CustomerName name={item.customerName} />
+                  </DataTable.Cell>
+
+                  {/* Channel */}
+                  <DataTable.Cell style={[w("channel"), styles.centerCell]}>
+                    <ChannelBadge channel={item.channel} />
                   </DataTable.Cell>
 
                   {/* Status */}
-                  <DataTable.Cell style={w("orderStatus")}>
+                  <DataTable.Cell style={[w("orderStatus"), styles.centerCell]}>
                     <StatusBadge status={item.orderStatus} />
                   </DataTable.Cell>
 
                   {/* Financial Data */}
-                  <DataTable.Cell numeric style={w("subTotal")}>
-                    <CellText align="right" style={styles.moneyText}>
+                  <DataTable.Cell style={[w("subTotal"), styles.centerCell]}>
+                    <CellText align="center" style={styles.moneyText}>
                       {formatBaht(item.subTotal)}
                     </CellText>
                   </DataTable.Cell>
-                  <DataTable.Cell numeric style={w("discount")}>
-                    <CellText
-                      align="right"
-                      style={[styles.moneyText, styles.discountText]}
-                    >
+                  <DataTable.Cell style={[w("discount"), styles.centerCell]}>
+                    <CellText align="center" style={[styles.moneyText, styles.discountText]}>
                       {formatBaht(item.discount)}
                     </CellText>
                   </DataTable.Cell>
-                  <DataTable.Cell numeric style={w("total")}>
-                    <CellText
-                      align="right"
-                      style={[styles.moneyText, styles.totalText]}
-                    >
+                  <DataTable.Cell style={[w("total"), styles.centerCell]}>
+                    <CellText align="center" style={[styles.moneyText, styles.totalText]}>
                       {formatBaht(item.total)}
                     </CellText>
                   </DataTable.Cell>
 
                   {/* Dates */}
-                  <DataTable.Cell style={w("createdAt")}>
-                    <CellText style={styles.dateText}>
+                  <DataTable.Cell style={[w("createdAt"), styles.centerCell]}>
+                    <CellText align="center" style={styles.dateText}>
                       {formatDateTime(item.createdAt)}
                     </CellText>
                   </DataTable.Cell>
-                  <DataTable.Cell style={w("paidAt")}>
-                    <CellText style={styles.dateText}>
+                  <DataTable.Cell style={[w("paidAt"), styles.centerCell]}>
+                    <CellText align="center" style={styles.dateText}>
                       {formatDateTime(item.paidAt)}
                     </CellText>
                   </DataTable.Cell>
 
                   {/* Items count */}
-                  <DataTable.Cell numeric style={w("items")}>
+                  <DataTable.Cell style={[w("items"), styles.centerCell]}>
                     <View style={styles.itemsCountContainer}>
                       <Text style={styles.itemsCount}>
                         {Array.isArray(item.orderDetails)
@@ -311,8 +379,8 @@ const OrderList = () => {
                   </DataTable.Cell>
 
                   {/* Payment */}
-                  <DataTable.Cell style={w("payment")}>
-                    <PaymentIcon />
+                  <DataTable.Cell style={[w("payment"), styles.centerCell]}>
+                    <PaymentIcon payment={item.payment} />
                   </DataTable.Cell>
                 </DataTable.Row>
               ))

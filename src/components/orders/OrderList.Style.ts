@@ -6,6 +6,15 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
   },
+
+  centerCell: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  
+  centerText: {
+    textAlign: "center",
+  },
   
   // Header Section
   header: {
@@ -53,7 +62,7 @@ export const styles = StyleSheet.create({
   summaryContainer: {
     flexDirection: 'row',
     backgroundColor: '#FFFFFF',
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
     borderBottomColor: '#E5E5E7',
@@ -62,20 +71,50 @@ export const styles = StyleSheet.create({
   summaryItem: {
     flex: 1,
     alignItems: 'center',
-    paddingHorizontal: 8,
+    paddingHorizontal: 4,
   },
   
   summaryLabel: {
-    fontSize: 12,
+    fontSize: 11,
     color: '#8E8E93',
     fontWeight: '500',
     marginBottom: 4,
+    textAlign: 'center',
   },
   
   summaryValue: {
-    fontSize: 18,
+    fontSize: 16,
     color: '#1D1D1F',
     fontWeight: '700',
+    textAlign: 'center',
+  },
+
+  revenueText: {
+    color: '#34C759',
+    fontSize: 14,
+  },
+
+  paidText: {
+    color: '#007AFF',
+  },
+
+  pendingText: {
+    color: '#FF9500',
+  },
+
+  // Page Info
+  pageInfoContainer: {
+    backgroundColor: '#F8F9FA',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E5E5E7',
+  },
+
+  pageInfo: {
+    fontSize: 12,
+    color: '#6D6D70',
+    textAlign: 'center',
   },
   
   // Table Section
@@ -144,13 +183,35 @@ export const styles = StyleSheet.create({
   },
   
   codeText: {
-    fontSize: 13,
+    fontSize: 12,
     fontFamily: 'monospace',
     color: '#5856D6',
     backgroundColor: '#F2F2F7',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
     borderRadius: 4,
+  },
+
+  tagText: {
+    fontSize: 12,
+    color: '#007AFF',
+    fontWeight: '500',
+    backgroundColor: '#E3F2FF',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+  },
+
+  // Customer Name
+  customerContainer: {
+    maxWidth: 130,
+    alignItems: 'center',
+  },
+
+  customerText: {
+    fontSize: 13,
+    color: '#1D1D1F',
+    fontWeight: '500',
   },
   
   moneyText: {
@@ -177,6 +238,14 @@ export const styles = StyleSheet.create({
   // Status Badge
   statusText: {
     fontSize: 12,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+
+  // Channel Badge
+  channelText: {
+    fontSize: 10,
     fontWeight: '600',
     textTransform: 'uppercase',
     letterSpacing: 0.5,
