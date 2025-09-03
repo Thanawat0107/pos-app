@@ -6,13 +6,17 @@ import {
   Pressable,
   ActivityIndicator,
   RefreshControl,
+  Modal,
+  TextInput,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { OrderDetail } from "../../@types/dto/OrderDetail";
 import { OrderDetailOption } from "../../@types/dto/OrderDetailOption";
 import { styles } from "./OrderDetails.Style";
-import { useGetOrderByIdQuery } from "../../services/orderApi";
+import { useGetOrderByIdQuery, useUpdateOrderMutation, useUpdateOrderStatusMutation } from "../../services/orderApi";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
+import { SD_OrderStatus } from "../../@types/Enum";
+import { getStatusMeta } from "../../helpers/getStatusMeta";
 
 type Props = {
   route?: { params?: { orderId: number } };
@@ -115,6 +119,14 @@ const OrderDetails = ({ route }: Props) => {
     error,
     refetch,
   } = useGetOrderByIdQuery(orderId, { skip: !orderId });
+  const [updateOrder, { isLoading: isUpdating }] = useUpdateOrderMutation();
+  const [updateOrderStatus, { isLoading: isUpdatingStatus }] =
+    useUpdateOrderStatusMutation();
+
+// modal state
+  const [showDiscountModal, setShowDiscountModal] = useState(false);
+  const [discountValue, setDiscountValue] = useState<string>("0");
+  const [showStatusModal, setShowStatusModal] = useState(false);
 
   // loading
   if (!orderId || isLoading) {
@@ -132,8 +144,13 @@ const OrderDetails = ({ route }: Props) => {
       <View style={[styles.center, { flex: 1, padding: 24 }]}>
         <Text style={styles.emptyTitle}>โหลดข้อมูลไม่สำเร็จ</Text>
         <Text style={styles.emptySub}>ลองกดโหลดใหม่</Text>
-        <Pressable style={[styles.btn, styles.btnPrimary, { marginTop: 12 }]} onPress={refetch}>
-          <Text style={[styles.btnText, styles.btnPrimaryText]}>โหลดอีกครั้ง</Text>
+        <Pressable
+          style={[styles.btn, styles.btnPrimary, { marginTop: 12 }]}
+          onPress={refetch}
+        >
+          <Text style={[styles.btnText, styles.btnPrimaryText]}>
+            โหลดอีกครั้ง
+          </Text>
         </Pressable>
       </View>
     );
@@ -149,18 +166,32 @@ const OrderDetails = ({ route }: Props) => {
         <RefreshControl refreshing={!!isFetching} onRefresh={refetch} />
       }
     >
-      {/* Header ของทั้งออเดอร์ */}
+      {/* Header */}
       <View style={styles.card}>
         <Text style={styles.title}>
-          ออเดอร์ #{header.id} — {header.orderCode ?? "-"}
+          ออเดอร์ที่ {header.id} — {header.orderCode ?? "-"}
         </Text>
-        <Text style={styles.metaText}>สถานะ: {header.orderStatus ?? "-"}</Text>
+
+        <Text style={styles.metaText}>
+          สถานะปัจจุบัน: {getStatusMeta(header.orderStatus).icon}{" "}
+          {getStatusMeta(header.orderStatus).label}
+        </Text>
+
+        <Pressable
+          style={[styles.btn, styles.btnPrimary, { marginTop: 12 }]}
+          onPress={() => setShowStatusModal(true)}
+        >
+          <Text style={[styles.btnText, styles.btnPrimaryText]}>
+            เปลี่ยนสถานะ
+          </Text>
+        </Pressable>
+
         <Text style={styles.metaText}>
           สร้างเมื่อ: {formatDateTime(header.createdAt)}
         </Text>
       </View>
 
-      {/* Loop รายการอาหารทั้งหมด */}
+      {/* Loop รายการอาหาร */}
       {list.length > 0 ? (
         list.map((order) => {
           const imageURI = order.menuItemImage?.trim()
@@ -169,7 +200,6 @@ const OrderDetails = ({ route }: Props) => {
 
           return (
             <View style={styles.card} key={order.id}>
-              {/* Header + Image */}
               <View style={styles.imageRow}>
                 <View style={styles.imageWrap}>
                   {imageURI ? (
@@ -234,7 +264,7 @@ const OrderDetails = ({ route }: Props) => {
                 )}
               </View>
 
-              {/* ราคาแต่ละเมนู */}
+              {/* ราคา */}
               <View style={styles.card}>
                 <Text style={styles.sectionTitle}>สรุปราคา</Text>
                 <PriceRow
@@ -280,7 +310,104 @@ const OrderDetails = ({ route }: Props) => {
         >
           <Text style={[styles.btnText, styles.btnGhostText]}>ย้อนกลับ</Text>
         </Pressable>
+
+        <Pressable
+          style={[styles.btn, styles.btnPrimary]}
+          onPress={() => {
+            setDiscountValue(String(header.discount ?? 0));
+            setShowDiscountModal(true);
+          }}
+        >
+          <Text style={[styles.btnText, styles.btnPrimaryText]}>
+            แก้ไขส่วนลด
+          </Text>
+        </Pressable>
       </View>
+
+      {/* Modal แก้ไขส่วนลด */}
+      <Modal visible={showDiscountModal} transparent animationType="slide">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalCard}>
+            <Text style={styles.sectionTitle}>แก้ไขส่วนลด</Text>
+            <TextInput
+              value={discountValue}
+              onChangeText={setDiscountValue}
+              keyboardType="numeric"
+              style={styles.input}
+            />
+            <View style={[styles.rowBetween, { marginTop: 16 }]}>
+              <Pressable
+                style={[styles.btn, styles.btnGhost]}
+                onPress={() => setShowDiscountModal(false)}
+              >
+                <Text style={[styles.btnText, styles.btnGhostText]}>
+                  ยกเลิก
+                </Text>
+              </Pressable>
+              <Pressable
+                style={[styles.btn, styles.btnPrimary]}
+                onPress={async () => {
+                  await updateOrder({
+                    id: header.id,
+                    data: { ...header, discount: Number(discountValue) },
+                  });
+                  setShowDiscountModal(false);
+                  refetch();
+                }}
+                disabled={isUpdating}
+              >
+                <Text style={[styles.btnText, styles.btnPrimaryText]}>
+                  {isUpdating ? "กำลังบันทึก..." : "บันทึก"}
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Modal เปลี่ยนสถานะ */}
+      <Modal visible={showStatusModal} transparent animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalCard}>
+            <Text style={styles.sectionTitle}>เลือกสถานะใหม่</Text>
+
+            {Object.values(SD_OrderStatus).map((st) => {
+              const meta = getStatusMeta(st);
+              return (
+                <Pressable
+                  key={st}
+                  style={[
+                    styles.statusButton,
+                    {
+                      backgroundColor: meta.color,
+                      marginTop: 10,
+                      flexDirection: "row",
+                    },
+                  ]}
+                  onPress={async () => {
+                    await updateOrderStatus({ id: header.id, newStatus: st });
+                    setShowStatusModal(false);
+                    refetch();
+                  }}
+                  disabled={isUpdatingStatus}
+                >
+                  <Text style={styles.statusButtonText}>{meta.icon}</Text>
+                  <Text style={[styles.statusButtonText, { marginLeft: 8 }]}>
+                    {meta.label}
+                  </Text>
+                </Pressable>
+              );
+            })}
+
+            <Pressable
+              style={[styles.btn, styles.btnGhost, { marginTop: 16 }]}
+              onPress={() => setShowStatusModal(false)}
+            >
+              <Text style={[styles.btnText, styles.btnGhostText]}>ปิด</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };

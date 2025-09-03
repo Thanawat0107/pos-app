@@ -13,11 +13,11 @@ export interface OrderHeader {
   orderStatus: string;
   channel: string;
   createdAt: string;
-  updatedAt?: string;
   cookingStartedAt?: string;
   readyAt?: string;
   servedAt?: string;
   paidAt?: string;
+  updatedAt?: string;
   cancelledAt?: string;
 
   isDeleted: boolean;

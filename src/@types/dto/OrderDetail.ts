@@ -5,6 +5,7 @@ export interface OrderDetail {
   menuItemId: number;
   menuItemName: string;
   menuItemImage: string;
+  
   unitPrice: number;
   quantity: number;
   extraPrice: number;

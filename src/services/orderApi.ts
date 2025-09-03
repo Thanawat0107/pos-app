@@ -5,6 +5,7 @@ import { OrderHeader } from "../@types/dto/OrderHeader";
 import { UpdateOrder } from "../@types/updateDto/UpdateOrder";
 import { PaginationMeta } from "../@types/responsts/PaginationMeta";
 import { ConfirmCartRequest } from "../@types/createDto/ConfirmCartRequest";
+import { OrdersQuery } from "../@types/requests/OrdersQuery";
 
 export const orderApi = createApi({
   reducerPath: "Order",
@@ -15,10 +16,18 @@ export const orderApi = createApi({
   endpoints: (builder) => ({
     getOrderAll: builder.query<
       { data: OrderHeader[]; meta: PaginationMeta },
-      { pageNumber?: number; pageSize?: number }
+      OrdersQuery
     >({
-      query: ({ pageNumber = 1, pageSize = 10 }) =>
-        `orders/getall?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+      query: (params) => {
+        const filtered = Object.fromEntries(
+          Object.entries(params || {}).filter(
+            ([, v]) => v !== undefined && v !== null && v !== ""
+          )
+        );
+
+        const queryString = new URLSearchParams(filtered as any).toString();
+        return `orders/getall?${queryString}`;
+      },
       transformResponse: (response: ApiResponse<OrderHeader[]>) => {
         if (!response.isSuccess) throw new Error(response.message);
         return {
@@ -30,7 +39,10 @@ export const orderApi = createApi({
     }),
 
     getOrderById: builder.query<OrderHeader, number>({
-      query: (id) => `orders/getby/${id}`,
+      query: (id) => ({
+        url: `orders/getby/${id}`,
+        method: "GET",
+      }),
       transformResponse: (response: ApiResponse<OrderHeader>) => {
         if (!response.isSuccess) throw new Error(response.message);
         return response.result!;

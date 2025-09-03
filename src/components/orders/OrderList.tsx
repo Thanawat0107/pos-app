@@ -171,12 +171,26 @@ const w = (key: ColKey) => ({ width: COLS.find((c) => c.key === key)!.width });
 const OrderList = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(5);
+  const [status, setStatus] = useState<string | undefined>();
+  const [keyword, setKeyword] = useState("");
+  const [from, setFrom] = useState<string | undefined>();
+  const [to, setTo] = useState<string | undefined>();
+  const [sortBy, setSortBy] = useState<string>("createdAt");
+  const [desc, setDesc] = useState<boolean>(true);
   const navigation = useAppNavigation();
 
-  const { data, isLoading, isError, isFetching } = useGetOrderAllQuery({
-    pageNumber,
-    pageSize,
-  });
+  const { data, isLoading, isError, isFetching, refetch } = useGetOrderAllQuery(
+    {
+      pageNumber,
+      pageSize,
+      status,
+      keyword,
+      from,
+      to,
+      sortBy,
+      desc,
+    }
+  );
 
   if (isLoading) {
     return (

@@ -1,9 +1,11 @@
 import { StyleSheet } from "react-native";
+import { hp } from "../../helpers/common";
 
 export const styles = StyleSheet.create({
   screen: {
     padding: 16,
     backgroundColor: "#F6F7FB",
+    paddingTop: hp(6), // 👈 เพิ่มระยะห่างด้านบน
   },
   card: {
     backgroundColor: "#FFFFFF",
@@ -109,4 +111,44 @@ export const styles = StyleSheet.create({
   center: { alignItems: "center", justifyContent: "center" },
   emptyTitle: { fontSize: 16, fontWeight: "700", color: "#111827" },
   emptySub: { marginTop: 6, color: "#6B7280" },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 20,
+  },
+  modalCard: {
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    padding: 20,
+    width: "100%",
+    maxWidth: 380,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 6,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#E5E7EB",
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 16,
+    color: "#111827",
+    marginTop: 12,
+  },
+  statusButton: {
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  statusButtonText: {
+    fontWeight: "700",
+    fontSize: 16,
+    color: "#fff",
+  },
 });
